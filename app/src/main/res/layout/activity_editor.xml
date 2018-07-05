@@ -25,6 +25,8 @@
                 android:orientation="vertical"
                 android:paddingLeft="4dp">
 
+
+
                 <LinearLayout
                     android:id="@+id/container_status"
                     android:layout_width="match_parent"
@@ -33,18 +35,26 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
+                        android:textAllCaps="true"
                         android:gravity="center_vertical"
                         android:text="Product Status:"
                         android:textSize="16sp"
                         android:textStyle="bold"/>
+                    <ImageView
+                        android:id="@+id/iv_product_status"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_product_available_shadow"/>
                     <Spinner
                         android:id="@+id/spinner_status"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:layout_weight="2"
-                        android:spinnerMode="dropdown"
-                        android:tooltipText="Clique me"/>
+                        android:layout_weight="4"
+                        android:spinnerMode="dropdown"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -71,7 +81,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -89,6 +100,65 @@
                         android:textSize="16sp"
                         tools:text="01/05/2018"/>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <!-- Product Quantity -->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        app:hintTextAppearance="@style/formHintText">
+                        <EditText
+                            android:id="@+id/edit_product_quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Quantity"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:theme="@style/formEditText" />
+                    </android.support.design.widget.TextInputLayout>
+                    <!-- Product Price -->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        app:hintTextAppearance="@style/formHintText">
+                        <EditText
+                            android:id="@+id/edit_product_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Price"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:theme="@style/formEditText" />
+                    </android.support.design.widget.TextInputLayout>
+                    <!-- Product Discount -->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        app:hintTextAppearance="@style/formHintText">
+                        <EditText
+                            android:id="@+id/edit_product_discount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Discount"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:theme="@style/formEditText" />
+                    </android.support.design.widget.TextInputLayout>
+                    <!-- Discount % symbol -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="%"/>
+                </LinearLayout>
+
                 <!-- Product Name -->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -148,68 +218,6 @@
                         android:maxLines="1"
                         android:theme="@style/formEditText" />
                 </android.support.design.widget.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <!-- Product Price -->
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        app:hintTextAppearance="@style/formHintText">
-                        <EditText
-                            android:id="@+id/edit_product_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Price"
-                            android:inputType="numberDecimal"
-                            android:maxLines="1"
-                            android:theme="@style/formEditText" />
-                    </android.support.design.widget.TextInputLayout>
-
-
-                    <!-- Product Discount -->
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        app:hintTextAppearance="@style/formHintText">
-                        <EditText
-                            android:id="@+id/edit_product_discount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Discount"
-                            android:inputType="numberDecimal"
-                            android:maxLines="1"
-                            android:theme="@style/formEditText" />
-                    </android.support.design.widget.TextInputLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-
-                        android:layout_weight="1"
-                        android:text="%"/>
-
-                    <!-- Product Quantity -->
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        app:hintTextAppearance="@style/formHintText">
-                        <EditText
-                            android:id="@+id/edit_product_quantity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Quantity"
-                            android:inputType="number"
-                            android:maxLines="1"
-                            android:theme="@style/formEditText" />
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
 
                 <!-- Product Quantity -->
                 <android.support.design.widget.TextInputLayout

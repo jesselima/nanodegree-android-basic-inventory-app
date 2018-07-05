@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,11 +50,13 @@ public class EditorActivity extends AppCompatActivity implements
     private TextView mEntryDateEditText, mUpdatedDateEditText;
     private Spinner mProductStatusSpinner;
 
+    private ImageView mImageProductStatus;
+
     private Toast toast;
     private long currentProductEntryDate;
     private boolean isEditingProduct = false;
 
-    private int mProductStatus = ProductEntry.PRODUCT_STATUS_OUT_OF_STOCK;
+    private int mProductStatus = ProductEntry.PRODUCT_STATUS_AVAILABLE;
     private boolean mProductHasChanged = false;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -93,6 +96,8 @@ public class EditorActivity extends AppCompatActivity implements
         mUpdatedDateEditText = findViewById(R.id.tv_updated_date);
         mProductStatusSpinner = findViewById(R.id.spinner_status);
 
+        mImageProductStatus = findViewById(R.id.iv_product_status);
+
         mNameEditText.setOnTouchListener(mTouchListener);
         mBrandEditText.setOnTouchListener(mTouchListener);
         mDescriptionEditText.setOnTouchListener(mTouchListener);
@@ -122,16 +127,19 @@ public class EditorActivity extends AppCompatActivity implements
                         /* Changes spinner font size and color. Color changes according to its position */
                         ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSpinnerAvailable));
                         ((TextView) parent.getChildAt(0)).setTextSize(20);
+                        mImageProductStatus.setImageResource(R.drawable.ic_product_available_shadow);
                     } else if (selection.equals(getString(R.string.product_status_out_of_stock))) {
                         mProductStatus = ProductEntry.PRODUCT_STATUS_OUT_OF_STOCK;
                         /* Changes spinner font size and color. Color changes according to its position */
                         ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSpinnerOutOfStock));
                         ((TextView) parent.getChildAt(0)).setTextSize(20);
+                        mImageProductStatus.setImageResource(R.drawable.ic_product_out_of_stock_shadow);
                     } else {
                         mProductStatus = ProductEntry.PRODUCT_STATUS_OUT_OF_MARKET;
                         /* Changes spinner font size and color. Color changes according to its position */
                         ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSpinnerOutOfMarket));
                         ((TextView) parent.getChildAt(0)).setTextSize(20);
+                        mImageProductStatus.setImageResource(R.drawable.ic_product_deprecated_shadow);
                     }
                 }
             }
@@ -144,12 +152,8 @@ public class EditorActivity extends AppCompatActivity implements
         });
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_editor.xml file.
-        // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
@@ -293,8 +297,8 @@ public class EditorActivity extends AppCompatActivity implements
             String  category =      cursor.getString(categoryColumnIndex);
             double  price =         cursor.getDouble(priceColumnIndex);
             int     discount =      cursor.getInt(discountColumnIndex);
-            int     quantity =      cursor.getInt(quantityColumnIndex);
             String  supplier =      cursor.getString(supplierColumnIndex);
+            int     quantity =      cursor.getInt(quantityColumnIndex);
 
             long entryDateLong = cursor.getInt(entryDateColumnIndex);
                 // Convert the date to a friendly format
@@ -302,7 +306,8 @@ public class EditorActivity extends AppCompatActivity implements
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(entryDateLong * 1000);
                 String entryDate =  formatter.format(calendar.getTime());
-
+                // Product data has been return from data. Sou we need to set the currentProductEntryDate == to the product date returned.
+                // This avoid to update the entry date while updating others products fields.
                 currentProductEntryDate = entryDateLong;
 
             long updatedDateLong = cursor.getInt(updatedColumnIndex);
@@ -326,18 +331,33 @@ public class EditorActivity extends AppCompatActivity implements
             mEntryDateEditText.setText(String.valueOf(entryDate));
             mUpdatedDateEditText.setText(String.valueOf(updatedDate));
 
+            /* Status codes:
+            * AVAILABLE = 0;
+            * OUT_OF_STOCK = 1;
+            * DEPRECATED = 2;
+            */
             int status = cursor.getInt(statusColumnIndex);
-                switch (status) {
-                    case ProductEntry.PRODUCT_STATUS_AVAILABLE:
-                        mProductStatusSpinner.setSelection(status);
-                        break;
-                    case ProductEntry.PRODUCT_STATUS_OUT_OF_STOCK:
-                        mProductStatusSpinner.setSelection(status);
-                        break;
-                    default:
-                        mProductStatusSpinner.setSelection(status);
-                        break;
-                }
+            if (status == 2){
+                doToast("Attention! This product is deprecated.");
+            }else if (quantity == 0){
+                status = ProductEntry.PRODUCT_STATUS_OUT_OF_STOCK; // if quantity is 1 set status to out of stock.
+            }else if (quantity >= 1){
+                status = ProductEntry.PRODUCT_STATUS_AVAILABLE;
+            }
+
+
+
+            switch (status) {
+                case ProductEntry.PRODUCT_STATUS_AVAILABLE:
+                    mProductStatusSpinner.setSelection(status);
+                    break;
+                case ProductEntry.PRODUCT_STATUS_OUT_OF_STOCK:
+                    mProductStatusSpinner.setSelection(status);
+                    break;
+                default:
+                    mProductStatusSpinner.setSelection(status);
+                    break;
+            }
 
         }
     }
@@ -461,9 +481,6 @@ public class EditorActivity extends AppCompatActivity implements
             }
         }
     }
-
-
-
 
     private void doToast(String string) {
         if (toast != null) {
