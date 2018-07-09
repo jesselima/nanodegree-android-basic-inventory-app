@@ -7,7 +7,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,12 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.udacity.inventory.adapters.ProductCursorAdapter;
 import com.udacity.inventory.data.ProductContract.ProductEntry;
+
+import java.text.DecimalFormat;
+import java.util.Random;
 
 
 public class CatalogActivity extends AppCompatActivity implements
@@ -112,13 +113,24 @@ public class CatalogActivity extends AppCompatActivity implements
             long timeStamp = System.currentTimeMillis()/1000;
             ContentValues values = new ContentValues();
             values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Product Test " + i);
-            values.put(ProductEntry.COLUMN_PRODUCT_BRAND, "Brand " +  + i);
+            values.put(ProductEntry.COLUMN_PRODUCT_BRAND, "Brand " + i);
             values.put(ProductEntry.COLUMN_PRODUCT_DESCRIPTION, "Product " + i + " description...");
             values.put(ProductEntry.COLUMN_PRODUCT_CATEGORY, "Category of product " + i);
-            values.put(ProductEntry.COLUMN_PRODUCT_PRICE, 831.25);
+
+            /* INSERT SAMPLES PRODUCTS */
+
+            // Randomize the price of the product properly formated.
+                Random randomGenerator = new Random();
+                double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
+                DecimalFormat df = new DecimalFormat("#.00");
+                double price = Double.parseDouble(df.format(randomPrice));
+            values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
             values.put(ProductEntry.COLUMN_PRODUCT_DISCOUNT, 10);
             values.put(ProductEntry.COLUMN_PRODUCT_STATUS, ProductEntry.PRODUCT_STATUS_AVAILABLE);
-            values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, 150);
+            // Randomize the price of the product properly formated.
+                Random randomQuantityGenerator = new Random();
+                int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
+                values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, "Supplier of product " + i);
             values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
             values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, timeStamp); // Epoch timestamp: 1528046360
