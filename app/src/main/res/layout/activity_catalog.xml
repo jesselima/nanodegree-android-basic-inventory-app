@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Images from www.freepik.com
+-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,36 +20,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
-
-        <ImageView
-            android:id="@+id/iv_empty_inventory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/no_products"/>
-
         <TextView
             android:id="@+id/tv_message_empty_inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_empty_inventory"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
-            android:paddingTop="16dp"
+            android:paddingBottom="24dp"
             android:text="No products in your inventory"
             android:textAppearance="?android:textAppearanceMedium"/>
-
+        <ImageView
+            android:id="@+id/iv_empty_inventory"
+            android:layout_below="@+id/tv_message_empty_inventory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/no_products"/>
         <TextView
             android:id="@+id/empty_subtitle_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_message_empty_inventory"
+            android:layout_below="@+id/iv_empty_inventory"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:text="What about to add some?"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#A2AAB0"/>
+            android:paddingTop="20dp"
+            android:text="Click at the plus button to add products"
+            android:textAppearance="?android:textAppearanceMedium"/>
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton

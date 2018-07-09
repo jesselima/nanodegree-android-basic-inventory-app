@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:padding="@dimen/activity_margin">
 
-
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/item_list_info"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -17,36 +18,71 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D"
-            tools:text="Zenfone 4"/>
+            android:textAppearance="?android:textAppearanceLarge"
+            tools:text="Zenfone 4" />
 
-        <TextView
-            android:id="@+id/tv_product_brand"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD"
-            tools:text="ASUS"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Price: "
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/tv_product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="831.75" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_product_category"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD"
-            tools:text="Smartfones"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Quantity: "
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/tv_product_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="143" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
-
-
+        <Button
+            android:id="@+id/btn_sale_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="Sale"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent" />
     </LinearLayout>
-
 
 </LinearLayout>

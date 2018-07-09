@@ -7,6 +7,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -75,8 +77,9 @@ public class CatalogActivity extends AppCompatActivity implements
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
-                ProductEntry.COLUMN_PRODUCT_BRAND,
-                ProductEntry.COLUMN_PRODUCT_CATEGORY };
+                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_PRODUCT_PRICE,
+                ProductEntry.COLUMN_PRODUCT_STATUS};
 
         return new CursorLoader(this,
                 ProductEntry.CONTENT_URI,
@@ -102,7 +105,9 @@ public class CatalogActivity extends AppCompatActivity implements
      * Helper method to insert hardcoded product data into the database. For debugging purposes only.
      */
     private void insertSampleProducts() {
+
         int sampleDataNumber = 6;
+
         for (int i = 1; i < sampleDataNumber; i++){
             long timeStamp = System.currentTimeMillis()/1000;
             ContentValues values = new ContentValues();
@@ -121,12 +126,19 @@ public class CatalogActivity extends AppCompatActivity implements
 
             Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
         }
-        doToast(String.valueOf(sampleDataNumber) + " test products added to the data base.");
+        doToast(String.valueOf(sampleDataNumber-1) + " test products added to the data base.");
     }
 
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
         doToast(rowsDeleted + " products deleted from inventory database");
+    }
+
+    // updateProduct(uri, contentValues, selection, selectionArgs);
+    private void sellProductItem() {
+
+//        int rowsUpdated = getContentResolver().update(ProductEntry.TABLE_NAME, ProductEntry._ID, ProductEntry._ID, ProductEntry._ID);
+        doToast(" product quantity updated!");
     }
 
     @Override

@@ -2,24 +2,28 @@ package com.udacity.inventory;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -27,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.udacity.inventory.data.ProductContract.ProductEntry;
+import com.udacity.inventory.data.ProductDbHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,6 +63,9 @@ public class EditorActivity extends AppCompatActivity implements
 
     private int mProductStatus = ProductEntry.PRODUCT_STATUS_AVAILABLE;
     private boolean mProductHasChanged = false;
+
+    private ProductDbHelper mDbHelper;
+    private Button addItem, removeItem;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -92,10 +100,10 @@ public class EditorActivity extends AppCompatActivity implements
         mDiscountEditText = findViewById(R.id.edit_product_discount);
         mQuantityEditText = findViewById(R.id.edit_product_quantity);
         mSupplierEditText = findViewById(R.id.edit_product_supplier);
+
         mEntryDateEditText = findViewById(R.id.tv_entry_date);
         mUpdatedDateEditText = findViewById(R.id.tv_updated_date);
         mProductStatusSpinner = findViewById(R.id.spinner_status);
-
         mImageProductStatus = findViewById(R.id.iv_product_status);
 
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -108,6 +116,41 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierEditText.setOnTouchListener(mTouchListener);
         mProductStatusSpinner.setOnTouchListener(mTouchListener);
         setupSpinner();
+
+        addItem = findViewById(R.id.btn_add_one_item);
+        addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemAdd();
+            }
+        });
+
+        removeItem = findViewById(R.id.btn_remove_one_item);
+        removeItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemRemove();
+            }
+        });
+
+        Button btnSave = findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveProduct();
+                finish();
+            }
+        });
+
+        Button btnDelete = findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteConfirmationDialog();
+            }
+        });
+
+
     }
 
     private void setupSpinner() {
@@ -480,6 +523,41 @@ public class EditorActivity extends AppCompatActivity implements
                 doToast(getString(R.string.editor_update_product_successful));
             }
         }
+    }
+
+    private void updateItemAdd(){
+
+        int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+        quantity++;
+        mQuantityEditText.setText(String.valueOf(quantity));
+
+        ContentValues values = new ContentValues();
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
+
+        int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
+        if (rowsAffected == 0) {
+            doToast(getString(R.string.editor_update_product_failed));
+        } else {
+            doToast(getString(R.string.product_quantity_updated));
+        }
+
+    }
+
+    private void updateItemRemove(){
+        int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+        quantity--;
+        mQuantityEditText.setText(String.valueOf(quantity));
+
+        ContentValues values = new ContentValues();
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
+
+        int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
+        if (rowsAffected == 0) {
+            doToast(getString(R.string.editor_update_product_failed));
+        } else {
+            doToast(getString(R.string.editor_update_product_successful));
+        }
+
     }
 
     private void doToast(String string) {

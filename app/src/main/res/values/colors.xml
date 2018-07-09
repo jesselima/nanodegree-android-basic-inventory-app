@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F0514B</color>
-    <color name="colorPrimaryDark">#C0403C</color>
-    <color name="colorAccent">#F0514B</color>
+    <color name="colorPrimary">#696969</color>
+    <color name="colorPrimaryDark">#292929</color>
+    <color name="colorAccent">#b45653</color>
     <color name="editorColorPrimary">#2D3640</color>
     <color name="editorColorPrimaryDark">#394450</color>
+    <color name="colorListItemAvailable">#202020</color>
     <color name="colorSpinnerAvailable">#028600</color>
+    <color name="colorSaveButton">#5a9b59</color>
     <color name="colorSpinnerOutOfStock">#af8300</color>
     <color name="colorSpinnerOutOfMarket">#9f0009</color>
-
+    <color name="colorWhite">#ffffff</color>
 </resources>
