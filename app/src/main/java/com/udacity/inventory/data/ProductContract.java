@@ -39,6 +39,8 @@ public final class ProductContract {
         public final static String COLUMN_PRODUCT_UPDATED = "updated";
         public final static String COLUMN_PRODUCT_PICTURE = "picture";
 
+        //TODO: Add supplier phone and email
+
         public static final int PRODUCT_STATUS_AVAILABLE = 0;
         public static final int PRODUCT_STATUS_OUT_OF_STOCK = 1;
         public static final int PRODUCT_STATUS_OUT_OF_MARKET = 2;

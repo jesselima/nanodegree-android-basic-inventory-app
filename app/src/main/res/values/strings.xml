@@ -13,7 +13,7 @@
     <string name="editor_insert_product_successful">Product saved</string>
     <string name="editor_insert_product_failed">Error with saving product</string>
     <string name="editor_update_product_successful">Product updated</string>
-    <string name="product_quantity_updated">Product quantity  updated</string>
+    <string name="product_quantity_updated">Product quantity updated to:\u0020</string>
     <string name="editor_update_product_failed">Error with updating product</string>
 
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
@@ -22,7 +22,7 @@
     <string name="editor_delete_product_successful">Product deleted</string>
 
     <string name="editor_delete_product_failed">Error with deleting product</string>
-    <string name="delete_dialog_msg">Delete this product?</string>
+    <string name="delete_dialog_msg">WARNING: Are you sure about to delete this product? This action can not be undone.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="category_overview">Overview</string>

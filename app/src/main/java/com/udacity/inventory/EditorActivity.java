@@ -62,7 +62,7 @@ public class EditorActivity extends AppCompatActivity implements
     private boolean mProductHasChanged = false;
 
     private ProductDbHelper mDbHelper;
-    private Button addItem, removeItem;
+    private Button add1Item, add10Item, add50Item, remove1Item, remove10Item, remove50Item;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -114,19 +114,47 @@ public class EditorActivity extends AppCompatActivity implements
         mProductStatusSpinner.setOnTouchListener(mTouchListener);
         setupSpinner();
 
-        addItem = findViewById(R.id.btn_add_one_item);
-        addItem.setOnClickListener(new View.OnClickListener() {
+        add1Item = findViewById(R.id.btn_add_one_item);
+        add1Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateItemAdd();
+                updateItemAdd(1);
+            }
+        });
+        add10Item = findViewById(R.id.btn_add_ten_item);
+        add10Item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemAdd(10);
+            }
+        });
+        add50Item = findViewById(R.id.btn_add_fifty_item);
+        add50Item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemAdd(50);
             }
         });
 
-        removeItem = findViewById(R.id.btn_remove_one_item);
-        removeItem.setOnClickListener(new View.OnClickListener() {
+        remove1Item = findViewById(R.id.btn_remove_one_item);
+        remove1Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateItemRemove();
+                updateItemRemove(1);
+            }
+        });
+        remove10Item = findViewById(R.id.btn_remove_ten_item);
+        remove10Item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemRemove(10);
+            }
+        });
+        remove50Item = findViewById(R.id.btn_remove_fifty_item);
+        remove50Item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemRemove(50);
             }
         });
 
@@ -521,37 +549,37 @@ public class EditorActivity extends AppCompatActivity implements
         }
     }
 
-    private void updateItemAdd(){
+    private void updateItemAdd(int quantityToAdd){
 
-        int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-        quantity++;
-        mQuantityEditText.setText(String.valueOf(quantity));
+        int quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+        int quantityUpdated = quantityFromInput + quantityToAdd;
+        mQuantityEditText.setText(String.valueOf(quantityUpdated));
 
         ContentValues values = new ContentValues();
-        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityUpdated);
 
         int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
         if (rowsAffected == 0) {
             doToast(getString(R.string.editor_update_product_failed));
         } else {
-            doToast(getString(R.string.product_quantity_updated));
+            doToast(getString(R.string.product_quantity_updated) + String.valueOf(quantityUpdated));
         }
 
     }
 
-    private void updateItemRemove(){
-        int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-        quantity--;
-        mQuantityEditText.setText(String.valueOf(quantity));
+    private void updateItemRemove(int quantityToRemove){
+        int quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+        int quantityUpdated = quantityFromInput - quantityToRemove;
+        mQuantityEditText.setText(String.valueOf(quantityUpdated));
 
         ContentValues values = new ContentValues();
-        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityUpdated);
 
         int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
         if (rowsAffected == 0) {
             doToast(getString(R.string.editor_update_product_failed));
         } else {
-            doToast(getString(R.string.editor_update_product_successful));
+            doToast(getString(R.string.product_quantity_updated) + String.valueOf(quantityUpdated));
         }
 
     }

@@ -124,6 +124,7 @@ public class ProductProvider extends ContentProvider {
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
+        // TODO? Validations here???
 //        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
 //            String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
 //            if (name == null) {
