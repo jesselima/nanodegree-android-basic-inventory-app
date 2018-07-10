@@ -74,17 +74,6 @@ public class ProductCursorAdapter extends CursorAdapter {
             quantityTextView.setText(R.string.product_status_out_of_market);
             quantityTextView.setTextColor(context.getResources().getColor(R.color.colorSpinnerOutOfMarket));
         }
-//      else {
-//            quantityTextView.setText("DEPRECATED");
-//            quantityTextView.setTextColor(context.getResources().getColor(R.color.colorSpinnerOutOfMarket));
-//        }
-
-//        if (productQuantity >= 1){
-//            quantityTextView.setText(String.valueOf(productQuantity));
-//        }else{
-//            quantityTextView.setText("OUT OF STOCK");
-//            quantityTextView.setTextColor(context.getResources().getColor(R.color.colorSpinnerOutOfStock));
-//        }
     }
 }
 

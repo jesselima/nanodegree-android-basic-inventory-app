@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,6 +87,10 @@ public class EditorActivity extends AppCompatActivity implements
         if (mCurrentProductUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_product));
             invalidateOptionsMenu();
+            CardView cardStatus = findViewById(R.id.card_status);
+                cardStatus.setVisibility(View.GONE);
+            CardView cardQuantity = findViewById(R.id.card_quantity);
+                cardQuantity.setVisibility(View.GONE);
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_product));
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
@@ -196,6 +201,9 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
 
+        if (mCurrentProductUri != null){
+
+        }
     }
 
     private void setupSpinner() {
@@ -636,6 +644,7 @@ public class EditorActivity extends AppCompatActivity implements
             startActivity(intent);
         }
     }
+
     protected void sendEmail() {
 
         String[] TO = {mSupplierEmailEditText.getText().toString().trim()};
@@ -666,4 +675,5 @@ public class EditorActivity extends AppCompatActivity implements
             doToast("There is no email client installed.");
         }
     }
+
 }
