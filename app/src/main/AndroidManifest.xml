@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".EditorActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="Add/Update Product"/>
         <activity android:name=".MainActivity"/>
 

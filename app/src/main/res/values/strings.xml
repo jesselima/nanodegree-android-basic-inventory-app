@@ -1,13 +1,11 @@
 <resources>
     <string name="app_name">Inventory</string>
-
     <string name="action_insert_dummy_data">Insert Test Products</string>
     <string name="action_delete_all_entries">Delete All Products</string>
     <string name="empty_view_title_text">It\'s a bit lonely here…</string>
     <string name="empty_view_subtitle_text">Get started by adding a product</string>
     <string name="editor_activity_title_new_product">Add a Product</string>
     <string name="editor_activity_title_edit_product">Edit Product</string>
-
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="editor_insert_product_successful">Product saved</string>
@@ -15,14 +13,13 @@
     <string name="editor_update_product_successful">Product updated</string>
     <string name="product_quantity_updated">Product quantity updated to:\u0020</string>
     <string name="editor_update_product_failed">Error with updating product</string>
-
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep Editing</string>
     <string name="editor_delete_product_successful">Product deleted</string>
-
     <string name="editor_delete_product_failed">Error with deleting product</string>
     <string name="delete_dialog_msg">WARNING: Are you sure about to delete this product? This action can not be undone.</string>
+    <string name="delete_all_data_warning">WARNING: THIS ACTION WILL DELETED ALL PRODUCTS FROM YOUR DATABASE. This action can not be undone. Click "DELETE" to confirm.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="category_overview">Overview</string>
@@ -41,6 +38,4 @@
     <string name="product_status_available">AVAILABLE</string>
     <string name="product_status_out_of_stock">OUT OF STOCK</string>
     <string name="product_status_out_of_market">DEPRECATED</string>
-
-    <string name="unknown_brand">Unknown brand</string>
 </resources>
