@@ -64,9 +64,6 @@ public class EditorActivity extends AppCompatActivity implements
     private int mProductStatus = ProductEntry.PRODUCT_STATUS_AVAILABLE;
     private boolean mProductHasChanged = false;
 
-    private ProductDbHelper mDbHelper;
-    private Button btnAdd1Item, btnAdd10Item, btnAdd50Item, btnRemove1Item, btnRemove10Item, btnRemove50Item, btnCallSupplier, btnEmailSupplier;
-
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -125,21 +122,21 @@ public class EditorActivity extends AppCompatActivity implements
         mProductStatusSpinner.setOnTouchListener(mTouchListener);
         setupSpinner();
 
-        btnAdd1Item = findViewById(R.id.btn_add_one_item);
+        Button btnAdd1Item = findViewById(R.id.btn_add_one_item);
         btnAdd1Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemAdd(1);
             }
         });
-        btnAdd10Item = findViewById(R.id.btn_add_ten_item);
+        Button btnAdd10Item = findViewById(R.id.btn_add_ten_item);
         btnAdd10Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemAdd(10);
             }
         });
-        btnAdd50Item = findViewById(R.id.btn_add_fifty_item);
+        Button btnAdd50Item = findViewById(R.id.btn_add_fifty_item);
         btnAdd50Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,21 +144,21 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
 
-        btnRemove1Item = findViewById(R.id.btn_remove_one_item);
+        Button btnRemove1Item = findViewById(R.id.btn_remove_one_item);
         btnRemove1Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemRemove(1);
             }
         });
-        btnRemove10Item = findViewById(R.id.btn_remove_ten_item);
+        Button btnRemove10Item = findViewById(R.id.btn_remove_ten_item);
         btnRemove10Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemRemove(10);
             }
         });
-        btnRemove50Item = findViewById(R.id.btn_remove_fifty_item);
+        Button btnRemove50Item = findViewById(R.id.btn_remove_fifty_item);
         btnRemove50Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,14 +166,14 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
 
-        btnCallSupplier = findViewById(R.id.btn_call_supplier);
+        Button btnCallSupplier = findViewById(R.id.btn_call_supplier);
         btnCallSupplier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callSupplier();
             }
         });
-        btnEmailSupplier = findViewById(R.id.btn_email_supplier);
+        Button btnEmailSupplier = findViewById(R.id.btn_email_supplier);
         btnEmailSupplier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,9 +198,6 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
 
-        if (mCurrentProductUri != null){
-
-        }
     }
 
     private void setupSpinner() {
@@ -354,12 +348,12 @@ public class EditorActivity extends AppCompatActivity implements
                 ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL };
 
         // This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(this,   // Parent activity context
-                mCurrentProductUri,         // Query the content URI for the current product
-                projection,             // Columns to include in the resulting Cursor
-                null,                   // No selection clause
-                null,                   // No selection arguments
-                null);                  // Default sort order
+        return new CursorLoader(this,
+                mCurrentProductUri,
+                projection,
+                null,
+                null,
+                null);
     }
 
     @Override
@@ -460,7 +454,6 @@ public class EditorActivity extends AppCompatActivity implements
                     mProductStatusSpinner.setSelection(status);
                     break;
             }
-
         }
     }
 

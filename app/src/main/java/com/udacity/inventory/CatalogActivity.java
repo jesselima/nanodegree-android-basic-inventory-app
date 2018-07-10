@@ -102,8 +102,6 @@ public class CatalogActivity extends AppCompatActivity implements
         mCursorAdapter.swapCursor(null);
     }
 
-
-
     /**
      * Helper method to insert hardcoded product data into the database. For debugging purposes only.
      */
@@ -111,8 +109,8 @@ public class CatalogActivity extends AppCompatActivity implements
 
         int sampleDataNumber = 6;
 
-        for (int i = 1; i < sampleDataNumber; i++){
-            long timeStamp = System.currentTimeMillis()/1000;
+        for (int i = 1; i < sampleDataNumber; i++) {
+            long timeStamp = System.currentTimeMillis() / 1000;
             ContentValues values = new ContentValues();
             values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Product Test " + i);
             values.put(ProductEntry.COLUMN_PRODUCT_BRAND, "Brand " + i);
@@ -122,42 +120,35 @@ public class CatalogActivity extends AppCompatActivity implements
             /* INSERT SAMPLES PRODUCTS */
 
             // Randomize the price of the product properly formated.
-                Random randomGenerator = new Random();
-                double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
-                DecimalFormat df = new DecimalFormat("#.00");
-                double price = Double.parseDouble(df.format(randomPrice));
+            Random randomGenerator = new Random();
+            double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
+            DecimalFormat df = new DecimalFormat("#.00");
+            double price = Double.parseDouble(df.format(randomPrice));
             values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
             values.put(ProductEntry.COLUMN_PRODUCT_DISCOUNT, 10);
             values.put(ProductEntry.COLUMN_PRODUCT_STATUS, ProductEntry.PRODUCT_STATUS_AVAILABLE);
             // Randomize the price of the product properly formated.
-                Random randomQuantityGenerator = new Random();
-                int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
+            Random randomQuantityGenerator = new Random();
+            int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
             values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, "Supplier of product " + i);
             // Randomize the supplier phone number for the sample products.
-                Random randomPhoneGenerator = new Random();
-                int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
+            Random randomPhoneGenerator = new Random();
+            int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(" + String.valueOf(randomPhone) + ") " + String.valueOf(randomPhone - 30) + "-" + String.valueOf(randomPhone - 15) + "-" + String.valueOf(randomPhone - 10));
-            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "contact@supplier"+ i + ".com");
+            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "contact@supplier" + i + ".com");
             values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
             values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, timeStamp); // Epoch timestamp: 1528046360
             values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, R.drawable.dummy_image_smartphone); // Sample product image.
 
             Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
         }
-        doToast(String.valueOf(sampleDataNumber-1) + " test products added to the database.");
+        doToast(String.valueOf(sampleDataNumber - 1) + " test products added to the database.");
     }
 
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
         doToast(rowsDeleted + " products deleted from inventory database");
-    }
-
-    // updateProduct(uri, contentValues, selection, selectionArgs);
-    private void sellProductItem() {
-
-//        int rowsUpdated = getContentResolver().update(ProductEntry.TABLE_NAME, ProductEntry._ID, ProductEntry._ID, ProductEntry._ID);
-        doToast(" product quantity updated!");
     }
 
     @Override
