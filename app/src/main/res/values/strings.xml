@@ -30,7 +30,12 @@
     <string name="category_measurement">Measurement</string>
     <string name="hint_product_name">Name</string>
     <string name="hint_product_brand">Brand</string>
+    <string name="hint_product_description">Description</string>
     <string name="hint_product_quantity">Quantity</string>
+    <string name="email_item_label_name">Name:\u0020</string>
+    <string name="email_item_label_brand">Brand:\u0020</string>
+    <string name="email_item_label_description">Description:\u0020</string>
+    <string name="email_item_label_request_quantity">My request quantity is:\u0020</string>
     <string name="unit_product_quantity">qtd</string>
 
     <string name="product_status_available">AVAILABLE</string>

@@ -64,7 +64,7 @@ public class EditorActivity extends AppCompatActivity implements
     private boolean mProductHasChanged = false;
 
     private ProductDbHelper mDbHelper;
-    private Button add1Item, add10Item, add50Item, remove1Item, remove10Item, remove50Item;
+    private Button btnAdd1Item, btnAdd10Item, btnAdd50Item, btnRemove1Item, btnRemove10Item, btnRemove50Item, btnCallSupplier, btnEmailSupplier;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -120,47 +120,62 @@ public class EditorActivity extends AppCompatActivity implements
         mProductStatusSpinner.setOnTouchListener(mTouchListener);
         setupSpinner();
 
-        add1Item = findViewById(R.id.btn_add_one_item);
-        add1Item.setOnClickListener(new View.OnClickListener() {
+        btnAdd1Item = findViewById(R.id.btn_add_one_item);
+        btnAdd1Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemAdd(1);
             }
         });
-        add10Item = findViewById(R.id.btn_add_ten_item);
-        add10Item.setOnClickListener(new View.OnClickListener() {
+        btnAdd10Item = findViewById(R.id.btn_add_ten_item);
+        btnAdd10Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemAdd(10);
             }
         });
-        add50Item = findViewById(R.id.btn_add_fifty_item);
-        add50Item.setOnClickListener(new View.OnClickListener() {
+        btnAdd50Item = findViewById(R.id.btn_add_fifty_item);
+        btnAdd50Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemAdd(50);
             }
         });
 
-        remove1Item = findViewById(R.id.btn_remove_one_item);
-        remove1Item.setOnClickListener(new View.OnClickListener() {
+        btnRemove1Item = findViewById(R.id.btn_remove_one_item);
+        btnRemove1Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemRemove(1);
             }
         });
-        remove10Item = findViewById(R.id.btn_remove_ten_item);
-        remove10Item.setOnClickListener(new View.OnClickListener() {
+        btnRemove10Item = findViewById(R.id.btn_remove_ten_item);
+        btnRemove10Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemRemove(10);
             }
         });
-        remove50Item = findViewById(R.id.btn_remove_fifty_item);
-        remove50Item.setOnClickListener(new View.OnClickListener() {
+        btnRemove50Item = findViewById(R.id.btn_remove_fifty_item);
+        btnRemove50Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateItemRemove(50);
+            }
+        });
+
+        btnCallSupplier = findViewById(R.id.btn_call_supplier);
+        btnCallSupplier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callSupplier();
+            }
+        });
+        btnEmailSupplier = findViewById(R.id.btn_email_supplier);
+        btnEmailSupplier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
             }
         });
 
@@ -180,7 +195,6 @@ public class EditorActivity extends AppCompatActivity implements
                 showDeleteConfirmationDialog();
             }
         });
-
 
     }
 
@@ -427,8 +441,6 @@ public class EditorActivity extends AppCompatActivity implements
                 status = ProductEntry.PRODUCT_STATUS_AVAILABLE;
             }
 
-
-
             switch (status) {
                 case ProductEntry.PRODUCT_STATUS_AVAILABLE:
                     mProductStatusSpinner.setSelection(status);
@@ -455,6 +467,8 @@ public class EditorActivity extends AppCompatActivity implements
         mDiscountEditText.setText("");
         mQuantityEditText.setText("");
         mSupplierEditText.setText("");
+        mSupplierPhoneEditText.setText("");
+        mSupplierEmailEditText.setText("");
         mEntryDateEditText.setText("");
         mUpdatedDateEditText.setText("");
         mProductStatusSpinner.setSelection(0);
@@ -608,5 +622,48 @@ public class EditorActivity extends AppCompatActivity implements
         }
         toast = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    protected void callSupplier() {
+
+        // TODO: PHONE VALIDATION
+
+        String phoneNumber = mSupplierPhoneEditText.getText().toString().trim();
+
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+    protected void sendEmail() {
+
+        String[] TO = {mSupplierEmailEditText.getText().toString().trim()};
+        String productName = mNameEditText.getText().toString().trim();
+        String productBrand = mBrandEditText.getText().toString().trim();
+        String productDescription = mDescriptionEditText.getText().toString().trim();
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Request of products to my store.");
+
+        StringBuilder emailData = new StringBuilder();
+            emailData.append("Dear Supplier,\n\nI would like to request the product below to supply my store.\n\n");
+            emailData.append(getResources().getString(R.string.email_item_label_name) + productName + "\n");
+            emailData.append(getResources().getString(R.string.email_item_label_brand) + productBrand + "\n");
+            emailData.append(getResources().getString(R.string.email_item_label_description) + productDescription + "\n\n");
+            emailData.append(getResources().getString(R.string.email_item_label_request_quantity));
+        String emailBody = emailData.toString();
+
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Please, choose your email app...."));
+            finish();
+        } catch (android.content.ActivityNotFoundException ex) {
+            doToast("There is no email client installed.");
+        }
     }
 }

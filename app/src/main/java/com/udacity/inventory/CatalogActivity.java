@@ -130,9 +130,12 @@ public class CatalogActivity extends AppCompatActivity implements
             // Randomize the price of the product properly formated.
                 Random randomQuantityGenerator = new Random();
                 int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
-                values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
+            values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, "Supplier of product " + i);
-            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(531) 987-789-456");
+            // Randomize the supplier phone number for the sample products.
+                Random randomPhoneGenerator = new Random();
+                int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
+            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(" + String.valueOf(randomPhone) + ") " + String.valueOf(randomPhone - 30) + "-" + String.valueOf(randomPhone - 15) + "-" + String.valueOf(randomPhone - 10));
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "contact@supplier"+ i + ".com");
             values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
             values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, timeStamp); // Epoch timestamp: 1528046360
