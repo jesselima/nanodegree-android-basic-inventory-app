@@ -132,13 +132,15 @@ public class CatalogActivity extends AppCompatActivity implements
                 int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
                 values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, "Supplier of product " + i);
+            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(531) 987-789-456");
+            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "contact@supplier"+ i + ".com");
             values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
             values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, timeStamp); // Epoch timestamp: 1528046360
             values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, R.drawable.dummy_image_smartphone); // Sample product image.
 
             Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
         }
-        doToast(String.valueOf(sampleDataNumber-1) + " test products added to the data base.");
+        doToast(String.valueOf(sampleDataNumber-1) + " test products added to the database.");
     }
 
     private void deleteAllProducts() {

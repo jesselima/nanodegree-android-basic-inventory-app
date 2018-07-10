@@ -231,6 +231,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Supplier Name"
+                        android:inputType="textCapSentences"
+                        android:maxLines="1"
+                        android:theme="@style/formEditText" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- Product Supplier Phone Number -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/formHintText">
+                    <EditText
+                        android:id="@+id/edit_product_supplier_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Supplier Phone Number"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:theme="@style/formEditText" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- Product Supplier Email -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/formHintText">
+                    <EditText
+                        android:id="@+id/edit_product_supplier_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Supplier Email Address"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:theme="@style/formEditText" />

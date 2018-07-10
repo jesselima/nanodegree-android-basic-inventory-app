@@ -49,6 +49,8 @@ public class EditorActivity extends AppCompatActivity implements
     private EditText mDiscountEditText;
     private EditText mQuantityEditText;
     private EditText mSupplierEditText;
+    private EditText mSupplierPhoneEditText;
+    private EditText mSupplierEmailEditText;
     private TextView mEntryDateEditText, mUpdatedDateEditText;
     private Spinner mProductStatusSpinner;
 
@@ -97,6 +99,8 @@ public class EditorActivity extends AppCompatActivity implements
         mDiscountEditText = findViewById(R.id.edit_product_discount);
         mQuantityEditText = findViewById(R.id.edit_product_quantity);
         mSupplierEditText = findViewById(R.id.edit_product_supplier);
+        mSupplierPhoneEditText = findViewById(R.id.edit_product_supplier_phone);
+        mSupplierEmailEditText = findViewById(R.id.edit_product_supplier_email);
 
         mEntryDateEditText = findViewById(R.id.tv_entry_date);
         mUpdatedDateEditText = findViewById(R.id.tv_updated_date);
@@ -111,6 +115,8 @@ public class EditorActivity extends AppCompatActivity implements
         mDiscountEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mSupplierEditText.setOnTouchListener(mTouchListener);
+        mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+        mSupplierEmailEditText.setOnTouchListener(mTouchListener);
         mProductStatusSpinner.setOnTouchListener(mTouchListener);
         setupSpinner();
 
@@ -321,7 +327,9 @@ public class EditorActivity extends AppCompatActivity implements
                 ProductEntry.COLUMN_PRODUCT_SUPPLIER,
                 ProductEntry.COLUMN_PRODUCT_ENTRY_DATE,
                 ProductEntry.COLUMN_PRODUCT_UPDATED,
-                ProductEntry.COLUMN_PRODUCT_PICTURE };
+                ProductEntry.COLUMN_PRODUCT_PICTURE,
+                ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE,
+                ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL };
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -353,6 +361,8 @@ public class EditorActivity extends AppCompatActivity implements
             int discountColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_DISCOUNT);
             int quantityColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
             int supplierColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER);
+            int supplierPhoneColumnIndex =  cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
+            int supplierEmailColumnIndex =  cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL);
             int statusColumnIndex =         cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_STATUS);
             int entryDateColumnIndex =      cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE);
             int updatedColumnIndex =        cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_UPDATED);
@@ -366,6 +376,8 @@ public class EditorActivity extends AppCompatActivity implements
             double  price =         cursor.getDouble(priceColumnIndex);
             int     discount =      cursor.getInt(discountColumnIndex);
             String  supplier =      cursor.getString(supplierColumnIndex);
+            String  supplierPhone = cursor.getString(supplierPhoneColumnIndex);
+            String  supplierEmail = cursor.getString(supplierEmailColumnIndex);
             int     quantity =      cursor.getInt(quantityColumnIndex);
 
             long entryDateLong = cursor.getInt(entryDateColumnIndex);
@@ -395,6 +407,8 @@ public class EditorActivity extends AppCompatActivity implements
             mDiscountEditText.setText(String.valueOf(discount));
             mQuantityEditText.setText(String.valueOf(quantity));
             mSupplierEditText.setText(supplier);
+            mSupplierPhoneEditText.setText(supplierPhone);
+            mSupplierEmailEditText.setText(supplierEmail);
 
             mEntryDateEditText.setText(String.valueOf(entryDate));
             mUpdatedDateEditText.setText(String.valueOf(updatedDate));
@@ -506,6 +520,8 @@ public class EditorActivity extends AppCompatActivity implements
         String descriptionString = mDescriptionEditText.getText().toString().trim();
         String categoryString = mCategoryEditText.getText().toString().trim();
         String supplier = mSupplierEditText.getText().toString().trim();
+        String supplierPhone = mSupplierPhoneEditText.getText().toString().trim();
+        String supplierEmail = mSupplierEmailEditText.getText().toString().trim();
         double price = Double.parseDouble(mPriceEditText.getText().toString().trim());
         int discount = Integer.parseInt(mDiscountEditText.getText().toString().trim());
         int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
@@ -520,6 +536,8 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductEntry.COLUMN_PRODUCT_DISCOUNT, discount);
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, supplier);
+        values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, supplierPhone);
+        values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, supplierEmail);
         values.put(ProductEntry.COLUMN_PRODUCT_STATUS, status);
 
         long currentDateTime = System.currentTimeMillis()/1000;
