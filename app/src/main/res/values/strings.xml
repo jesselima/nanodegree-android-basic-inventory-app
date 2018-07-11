@@ -19,7 +19,7 @@
     <string name="editor_delete_product_successful">Product deleted</string>
     <string name="editor_delete_product_failed">Error with deleting product</string>
     <string name="delete_dialog_msg">WARNING: Are you sure about to delete this product? This action can not be undone.</string>
-    <string name="delete_all_data_warning">WARNING: THIS ACTION WILL DELETED ALL PRODUCTS FROM YOUR DATABASE. This action can not be undone. Click "DELETE" to confirm.</string>
+    <string name="delete_all_data_warning">WARNING: THIS ACTION WILL DELETE ALL PRODUCTS FROM YOUR DATABASE. This action can not be undone. Click "DELETE" to confirm.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="category_overview">Overview</string>
@@ -34,8 +34,10 @@
     <string name="email_item_label_description">Description:\u0020</string>
     <string name="email_item_label_request_quantity">My request quantity is:\u0020</string>
     <string name="unit_product_quantity">qtd</string>
-
     <string name="product_status_available">AVAILABLE</string>
     <string name="product_status_out_of_stock">OUT OF STOCK</string>
     <string name="product_status_out_of_market">DEPRECATED</string>
+    <string name="this_product_out_of_stock">This product is out of stock</string>
+    <string name="you_sold_one_">You sold one\u0020</string>
+    <string name="_0">0</string>
 </resources>

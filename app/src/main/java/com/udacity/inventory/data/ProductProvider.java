@@ -125,23 +125,23 @@ public class ProductProvider extends ContentProvider {
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         // TODO? Validations here???
-//        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
-//            String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
-//            if (name == null) {
-//                throw new IllegalArgumentException("Product requires a name");
-//            }
-//        }
-//
-//        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_STATUS)) {
-//            Integer status = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_STATUS);
-//            if (status == null || !ProductEntry.checkSelectedProductStatus(status)) {
-//                throw new IllegalArgumentException("Product requires valid status");
-//            }
-//        }
-//
-//        if (values.size() == 0) {
-//            return 0;
-//        }
+        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
+            String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
+            if (name == null) {
+                throw new IllegalArgumentException("Product requires a name");
+            }
+        }
+
+        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_STATUS)) {
+            Integer status = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_STATUS);
+            if (status == null || !ProductEntry.checkSelectedProductStatus(status)) {
+                throw new IllegalArgumentException("Product requires valid status");
+            }
+        }
+
+        if (values.size() == 0) {
+            return 0;
+        }
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 

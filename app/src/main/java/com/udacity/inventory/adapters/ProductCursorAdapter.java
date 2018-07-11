@@ -56,10 +56,10 @@ public class ProductCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
                 if (productQuantity == 0){
-                    doToast(context, "This product is out of stock");
+                    doToast(context, context.getString(R.string.this_product_out_of_stock));
                 }else {
                     saleItem(context, id, (productQuantity - 1));
-                    doToast(context, "You sold one " + productName + " from the store.");
+                    doToast(context, context.getString(R.string.you_sold_one_) + productName + " from the store.");
                 }
             }
         });
@@ -93,7 +93,6 @@ public class ProductCursorAdapter extends CursorAdapter {
         String[] whereVal = {Long.toString(productId)};
 
         resolver.update(newUri, values, where, whereVal);
-
     }
 
     /**

@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -29,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.udacity.inventory.data.ProductContract.ProductEntry;
-import com.udacity.inventory.data.ProductDbHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -266,7 +266,10 @@ public class EditorActivity extends AppCompatActivity implements
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save product to database
-                saveProduct();
+                if (!saveProduct()){
+                    doToast("Please, fill all form fields!");
+                    return false;
+                }
                 // Exit activity
                 finish();
                 return true;
@@ -528,19 +531,114 @@ public class EditorActivity extends AppCompatActivity implements
         finish();
     }
 
-    private void saveProduct() {
+    private boolean saveProduct() {
         // Get data from forms
-        String nameString = mNameEditText.getText().toString().trim();
-        String brandString = mBrandEditText.getText().toString().trim();
-        String descriptionString = mDescriptionEditText.getText().toString().trim();
-        String categoryString = mCategoryEditText.getText().toString().trim();
-        String supplier = mSupplierEditText.getText().toString().trim();
-        String supplierPhone = mSupplierPhoneEditText.getText().toString().trim();
-        String supplierEmail = mSupplierEmailEditText.getText().toString().trim();
-        double price = Double.parseDouble(mPriceEditText.getText().toString().trim());
-        int discount = Integer.parseInt(mDiscountEditText.getText().toString().trim());
-        int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+        // TextUtils.isEmpty( mEditText.getText().toString() ).
+//        String nameString = mNameEditText.getText().toString().trim();
+//        String brandString = mBrandEditText.getText().toString().trim();
+//        String descriptionString = mDescriptionEditText.getText().toString().trim();
+//        String categoryString = mCategoryEditText.getText().toString().trim();
+//        String supplier = mSupplierEditText.getText().toString().trim();
+//        String supplierPhone = mSupplierPhoneEditText.getText().toString().trim();
+//        String supplierEmail = mSupplierEmailEditText.getText().toString().trim();
+//        double price = Double.parseDouble(mPriceEditText.getText().toString().trim());
+
+
+        String nameString;
+        if (mNameEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            nameString = mNameEditText.getText().toString().trim();
+        }
+
+        String brandString;
+        if (mBrandEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            brandString = mBrandEditText.getText().toString().trim();
+        }
+
+        String descriptionString;
+        if (mDescriptionEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            descriptionString = mDescriptionEditText.getText().toString().trim();
+        }
+
+        String categoryString;
+        if (mCategoryEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            categoryString = mCategoryEditText.getText().toString().trim();
+        }
+
+        String supplier;
+        if (mSupplierEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            supplier = mSupplierEditText.getText().toString().trim();
+        }
+
+        String supplierPhone;
+        if (mSupplierPhoneEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            supplierPhone = mSupplierPhoneEditText.getText().toString().trim();
+        }
+
+        String supplierEmail;
+        if (mSupplierEmailEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            supplierEmail = mSupplierEmailEditText.getText().toString().trim();
+        }
+
+        double price;
+        if (mPriceEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            price = Double.parseDouble(mPriceEditText.getText().toString().trim());
+        }
+
+        int discount;
+        if (mDiscountEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            discount = Integer.parseInt(mDiscountEditText.getText().toString());
+        }
+
+        int quantity;
+        if (mQuantityEditText.getText().toString().equals("")){
+            return false;
+        }else {
+            quantity = Integer.parseInt(mQuantityEditText.getText().toString());
+        }
+
         int status = mProductStatus;
+
+//        if (TextUtils.isEmpty(nameString)
+//                || TextUtils.isEmpty(brandString)
+//                || TextUtils.isEmpty(descriptionString)
+//                || TextUtils.isEmpty(categoryString)
+//                || TextUtils.isEmpty(supplier)
+//                || TextUtils.isEmpty(supplierPhone)
+//                || TextUtils.isEmpty(supplierEmail)
+//                || price < 0
+//                || quantity < 0){
+//            return false;
+//        }
+
+        Log.v("nameString", String.valueOf(nameString));
+        Log.v("brandString", String.valueOf(brandString));
+        Log.v("descriptionString", String.valueOf(descriptionString));
+        Log.v("categoryString", String.valueOf(categoryString));
+        Log.v("supplier", String.valueOf(supplier));
+        Log.v("supplierPhone", String.valueOf(supplierPhone));
+        Log.v("supplierEmail", String.valueOf(supplierEmail));
+        Log.v("price", String.valueOf(price));
+        Log.v("quantity", String.valueOf(quantity));
+        Log.v("discount", String.valueOf(discount));
+        Log.v("status", String.valueOf(status));
 
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, nameString);
@@ -565,6 +663,7 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, entryDate);
         values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, currentDateTime);
 
+        // FOR NEW PRODUCT
         if (mCurrentProductUri == null) {
             Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
             if (newUri == null) {
@@ -572,6 +671,7 @@ public class EditorActivity extends AppCompatActivity implements
             } else {
                 doToast(getString(R.string.editor_insert_product_successful));
             }
+        // FOR PRODUCT UPDATE
         } else {
             int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
             if (rowsAffected == 0) {
@@ -580,6 +680,7 @@ public class EditorActivity extends AppCompatActivity implements
                 doToast(getString(R.string.editor_update_product_successful));
             }
         }
+        return true;
     }
 
     private void updateItemAdd(int quantityToAdd){

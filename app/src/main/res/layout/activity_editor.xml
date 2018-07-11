@@ -261,8 +261,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Discount"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:maxLines="1"
+                        android:text="@string/_0"
                         android:theme="@style/formEditText" />
                 </android.support.design.widget.TextInputLayout>
                 <!-- Discount % symbol -->
