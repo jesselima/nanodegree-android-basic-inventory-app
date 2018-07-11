@@ -19,6 +19,8 @@ import com.udacity.inventory.data.ProductContract.ProductEntry;
 
 public class ProductCursorAdapter extends CursorAdapter {
 
+    Toast toast;
+
     public ProductCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
@@ -53,8 +55,12 @@ public class ProductCursorAdapter extends CursorAdapter {
         mSaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "You sold one " + productName + " from the store.", Toast.LENGTH_SHORT).show();
-                saleItem(context, id, (productQuantity - 1));
+                if (productQuantity == 0){
+                    doToast(context, "This product is out of stock");
+                }else {
+                    saleItem(context, id, (productQuantity - 1));
+                    doToast(context, "You sold one " + productName + " from the store.");
+                }
             }
         });
 
@@ -88,6 +94,19 @@ public class ProductCursorAdapter extends CursorAdapter {
 
         resolver.update(newUri, values, where, whereVal);
 
+    }
+
+    /**
+     * This method makes the reuse of toast object to avoid toasts queue
+     *
+     * @param string is the text you want to show in the toast.
+     */
+    private void doToast(Context context, String string) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, string, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
 
