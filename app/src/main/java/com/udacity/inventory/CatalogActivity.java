@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.udacity.inventory.adapters.ProductCursorAdapter;
 import com.udacity.inventory.data.ProductContract.ProductEntry;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -107,9 +110,22 @@ public class CatalogActivity extends AppCompatActivity implements
      */
     private void insertSampleProducts() {
 
+//        Bitmap bitmapFromResource = BitmapFactory.decodeResource(getResources(), R.id.action_insert_dummy_data);
+
+//        byte[] productDummyImageInBytes = convertToBytes(bitmapFromResource);
+        byte[] productDummyImageInBytes = convertBitmapToBytes();
+
+//        Bitmap bitmapFromResource = intent.getExtras().get("data");
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmapFromResource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        byte[] byteArray = stream.toByteArray();
+//        bitmapFromResource.recycle();
+
+
         int sampleDataNumber = 6;
 
         for (int i = 1; i < sampleDataNumber; i++) {
+
             long timeStamp = System.currentTimeMillis() / 1000;
             ContentValues values = new ContentValues();
             values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Product Test " + i);
@@ -118,28 +134,26 @@ public class CatalogActivity extends AppCompatActivity implements
             values.put(ProductEntry.COLUMN_PRODUCT_CATEGORY, "Category of product " + i);
 
             /* INSERT SAMPLES PRODUCTS */
-
-            // Randomize the price of the product properly formated.
-            Random randomGenerator = new Random();
-            double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
-            DecimalFormat df = new DecimalFormat("#.00");
-            double price = Double.parseDouble(df.format(randomPrice));
+                    Random randomGenerator = new Random();
+                    double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
+                    DecimalFormat df = new DecimalFormat("#.00");
+                    double price = Double.parseDouble(df.format(randomPrice));
             values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
             values.put(ProductEntry.COLUMN_PRODUCT_DISCOUNT, 10);
             values.put(ProductEntry.COLUMN_PRODUCT_STATUS, ProductEntry.PRODUCT_STATUS_AVAILABLE);
-            // Randomize the price of the product properly formated.
-            Random randomQuantityGenerator = new Random();
-            int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
+
+                    Random randomQuantityGenerator = new Random();
+                    int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
             values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, "Supplier of product " + i);
-            // Randomize the supplier phone number for the sample products.
-            Random randomPhoneGenerator = new Random();
-            int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
+
+                    Random randomPhoneGenerator = new Random();
+                    int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(" + String.valueOf(randomPhone) + ") " + String.valueOf(randomPhone - 30) + "-" + String.valueOf(randomPhone - 15) + "-" + String.valueOf(randomPhone - 10));
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "contact@supplier" + i + ".com");
             values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
             values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, timeStamp); // Epoch timestamp: 1528046360
-            values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, R.drawable.dummy_image_smartphone); // Sample product image.
+            values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, productDummyImageInBytes); // Sample product image.
 
             Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
         }
@@ -202,5 +216,24 @@ public class CatalogActivity extends AppCompatActivity implements
         }
         toast = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    // Convert bitmap to byte array.
+    public static byte[] convertToBytes(Bitmap ImageInBitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        ImageInBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    public byte[] convertBitmapToBytes() {
+        Bitmap bitmapFromResource = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_product_image);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmapFromResource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    // Convert byte array to bitmap
+    public static Bitmap convertToBitmap(byte[] imageInBytes) {
+        return BitmapFactory.decodeByteArray(imageInBytes, 0, imageInBytes.length);
     }
 }

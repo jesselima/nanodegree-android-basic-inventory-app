@@ -4,12 +4,16 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +41,13 @@ public class ProductCursorAdapter extends CursorAdapter {
         TextView nameTextView = view.findViewById(R.id.tv_product_name);
         TextView quantityTextView = view.findViewById(R.id.tv_product_quantity);
         TextView priceTextView = view.findViewById(R.id.tv_product_price);
+        ImageView productImageView = view.findViewById(R.id.iv_product_item_list);
 
-        int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
-        int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-        int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
-        int statusColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_STATUS);
+        int nameColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
+        int quantityColumnIndex =   cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+        int priceColumnIndex =      cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
+        int statusColumnIndex =     cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_STATUS);
+        int imageColumnIndex =      cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PICTURE);
 
         final String productName = cursor.getString(nameColumnIndex);
         final int productQuantity = cursor.getInt(quantityColumnIndex);
@@ -49,20 +55,24 @@ public class ProductCursorAdapter extends CursorAdapter {
         int productStatus = cursor.getInt(statusColumnIndex);
 
 
+        // Implementation to sale item from the clicked item list
         int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
-        final int id = cursor.getInt(idColumnIndex);
-        Button mSaleButton = view.findViewById(R.id.btn_sale_button);
-        mSaleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (productQuantity == 0){
-                    doToast(context, context.getString(R.string.this_product_out_of_stock));
-                }else {
-                    saleItem(context, id, (productQuantity - 1));
-                    doToast(context, context.getString(R.string.you_sold_one_) + productName + " from the store.");
+            final int id = cursor.getInt(idColumnIndex);
+            Button mSaleButton = view.findViewById(R.id.btn_sale_button);
+            mSaleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (productQuantity == 0){
+                        doToast(context, context.getString(R.string.this_product_out_of_stock));
+                    }else {
+                        saleItem(context, id, (productQuantity - 1));
+                        doToast(context, context.getString(R.string.you_sold_one_) + productName + " from the store.");
+                    }
                 }
-            }
-        });
+            });
+
+        // TODO: Load image from database
+        productImageView.setImageResource(R.drawable.dummy_product_image);
 
         priceTextView.setText(String.valueOf(productPrice));
         nameTextView.setText(productName);
@@ -106,6 +116,11 @@ public class ProductCursorAdapter extends CursorAdapter {
         }
         toast = Toast.makeText(context, string, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    // Convert byte array to bitmap
+    private static Bitmap convertToBitmap(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }
 

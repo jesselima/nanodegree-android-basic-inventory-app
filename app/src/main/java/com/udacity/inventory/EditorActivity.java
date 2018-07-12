@@ -8,14 +8,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,12 +27,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.udacity.inventory.data.ProductContract.ProductEntry;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,6 +44,7 @@ public class EditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int EXISTING_PRODUCT_LOADER = 0;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private Uri mCurrentProductUri;
     private EditText mNameEditText;
@@ -56,6 +61,8 @@ public class EditorActivity extends AppCompatActivity implements
     private Spinner mProductStatusSpinner;
 
     private ImageView mImageProductStatus;
+    private ImageView mImageViewProduct;
+    private Bitmap mImageProductBitmap;
 
     private Toast toast;
     private long currentProductEntryDate;
@@ -84,14 +91,23 @@ public class EditorActivity extends AppCompatActivity implements
         if (mCurrentProductUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_product));
             invalidateOptionsMenu();
-            CardView cardStatus = findViewById(R.id.card_status);
-                cardStatus.setVisibility(View.GONE);
+
+
+            LinearLayout linearLayoutEntryDate = findViewById(R.id.layout_entry_date);
+            linearLayoutEntryDate.setVisibility(View.GONE);
+            LinearLayout linearLayoutLastUpdate = findViewById(R.id.layout_last_update);
+            linearLayoutLastUpdate.setVisibility(View.GONE);
+            LinearLayout linearLayoutContact = findViewById(R.id.layout_contact);
+            linearLayoutContact.setVisibility(View.GONE);
+
             CardView cardQuantity = findViewById(R.id.card_quantity);
                 cardQuantity.setVisibility(View.GONE);
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_product));
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
+
+        mImageViewProduct = findViewById(R.id.iv_product_details_layout);
 
         mNameEditText = findViewById(R.id.edit_product_name);
         mBrandEditText = findViewById(R.id.edit_product_brand);
@@ -185,7 +201,11 @@ public class EditorActivity extends AppCompatActivity implements
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveProduct();
+                if (!saveProduct()){
+                    doToast("Please, fill all form fields!");
+                    return;
+                }
+                // Exit activity
                 finish();
             }
         });
@@ -195,6 +215,13 @@ public class EditorActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 showDeleteConfirmationDialog();
+            }
+        });
+
+        mImageViewProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
             }
         });
 
@@ -216,19 +243,19 @@ public class EditorActivity extends AppCompatActivity implements
                         mProductStatus = ProductEntry.PRODUCT_STATUS_AVAILABLE;
                         /* Changes spinner font size and color. Color changes according to its position */
                         ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSpinnerAvailable));
-                        ((TextView) parent.getChildAt(0)).setTextSize(20);
+                        ((TextView) parent.getChildAt(0)).setTextSize(16);
                         mImageProductStatus.setImageResource(R.drawable.ic_product_available_shadow);
                     } else if (selection.equals(getString(R.string.product_status_out_of_stock))) {
                         mProductStatus = ProductEntry.PRODUCT_STATUS_OUT_OF_STOCK;
                         /* Changes spinner font size and color. Color changes according to its position */
                         ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSpinnerOutOfStock));
-                        ((TextView) parent.getChildAt(0)).setTextSize(20);
+                        ((TextView) parent.getChildAt(0)).setTextSize(16);
                         mImageProductStatus.setImageResource(R.drawable.ic_product_out_of_stock_shadow);
                     } else {
                         mProductStatus = ProductEntry.PRODUCT_STATUS_OUT_OF_MARKET;
                         /* Changes spinner font size and color. Color changes according to its position */
                         ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSpinnerOutOfMarket));
-                        ((TextView) parent.getChildAt(0)).setTextSize(20);
+                        ((TextView) parent.getChildAt(0)).setTextSize(16);
                         mImageProductStatus.setImageResource(R.drawable.ic_product_deprecated_shadow);
                     }
                 }
@@ -385,7 +412,7 @@ public class EditorActivity extends AppCompatActivity implements
             int statusColumnIndex =         cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_STATUS);
             int entryDateColumnIndex =      cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE);
             int updatedColumnIndex =        cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_UPDATED);
-            //int imageColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PICTURE);
+            int imageColumnIndex =          cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PICTURE);
 
             /* GET DATA FROM THE TABLE RESULT */
             String  name =          cursor.getString(nameColumnIndex);
@@ -416,6 +443,9 @@ public class EditorActivity extends AppCompatActivity implements
                 calendarUpdated.setTimeInMillis(updatedDateLong * 1000);
                 String updatedDate =  formatterUpdated.format(calendarUpdated.getTime());
 
+            byte[] imageInBytes = cursor.getBlob(imageColumnIndex);
+            Bitmap mImageFromDb = convertToBitmap(imageInBytes);
+            mImageViewProduct.setImageBitmap(mImageFromDb);
 
             /* UPDATE UI WITH DATA FROM DATABASE */
             mNameEditText.setText(name);
@@ -533,17 +563,6 @@ public class EditorActivity extends AppCompatActivity implements
 
     private boolean saveProduct() {
         // Get data from forms
-        // TextUtils.isEmpty( mEditText.getText().toString() ).
-//        String nameString = mNameEditText.getText().toString().trim();
-//        String brandString = mBrandEditText.getText().toString().trim();
-//        String descriptionString = mDescriptionEditText.getText().toString().trim();
-//        String categoryString = mCategoryEditText.getText().toString().trim();
-//        String supplier = mSupplierEditText.getText().toString().trim();
-//        String supplierPhone = mSupplierPhoneEditText.getText().toString().trim();
-//        String supplierEmail = mSupplierEmailEditText.getText().toString().trim();
-//        double price = Double.parseDouble(mPriceEditText.getText().toString().trim());
-
-
         String nameString;
         if (mNameEditText.getText().toString().equals("")){
             return false;
@@ -616,29 +635,10 @@ public class EditorActivity extends AppCompatActivity implements
 
         int status = mProductStatus;
 
-//        if (TextUtils.isEmpty(nameString)
-//                || TextUtils.isEmpty(brandString)
-//                || TextUtils.isEmpty(descriptionString)
-//                || TextUtils.isEmpty(categoryString)
-//                || TextUtils.isEmpty(supplier)
-//                || TextUtils.isEmpty(supplierPhone)
-//                || TextUtils.isEmpty(supplierEmail)
-//                || price < 0
-//                || quantity < 0){
-//            return false;
-//        }
-
-        Log.v("nameString", String.valueOf(nameString));
-        Log.v("brandString", String.valueOf(brandString));
-        Log.v("descriptionString", String.valueOf(descriptionString));
-        Log.v("categoryString", String.valueOf(categoryString));
-        Log.v("supplier", String.valueOf(supplier));
-        Log.v("supplierPhone", String.valueOf(supplierPhone));
-        Log.v("supplierEmail", String.valueOf(supplierEmail));
-        Log.v("price", String.valueOf(price));
-        Log.v("quantity", String.valueOf(quantity));
-        Log.v("discount", String.valueOf(discount));
-        Log.v("status", String.valueOf(status));
+        // If quantity in the form is > 0 the status is auto set to available.
+        if (quantity > 0){
+            status = 0;
+        }
 
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, nameString);
@@ -652,6 +652,15 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, supplierPhone);
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, supplierEmail);
         values.put(ProductEntry.COLUMN_PRODUCT_STATUS, status);
+
+        byte[] productImageBytes;
+        if (mImageProductBitmap != null) {
+            productImageBytes = getImageInBytes(mImageProductBitmap);
+        }else {
+            productImageBytes = convertBitmapResourceToBytes();
+        }
+        values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, productImageBytes);
+
 
         long currentDateTime = System.currentTimeMillis()/1000;
         long entryDate;
@@ -702,8 +711,17 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     private void updateItemRemove(int quantityToRemove){
+
         int quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+
         int quantityUpdated = quantityFromInput - quantityToRemove;
+        if (quantityFromInput == 0){
+            Toast.makeText(this, "Product stock is already empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }else if (quantityUpdated < 0){
+            Toast.makeText(this, "Product stock is now empty.", Toast.LENGTH_SHORT).show();
+            quantityUpdated = 0;
+        }
         mQuantityEditText.setText(String.valueOf(quantityUpdated));
 
         ContentValues values = new ContentValues();
@@ -770,4 +788,45 @@ public class EditorActivity extends AppCompatActivity implements
         }
     }
 
+    /* GET IMAGE FROM DEVICE CAMERA */
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+
+                mImageProductBitmap = (Bitmap) extras.get("data");
+                mImageViewProduct.setImageBitmap(mImageProductBitmap);
+
+                if (mImageProductBitmap != null) {
+                    getImageInBytes(mImageProductBitmap);
+                }
+            }
+        }
+    }
+
+    // Convert bitmap to byte array.
+    public static byte[] getImageInBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
+    // Convert byte array to bitmap
+    public static Bitmap convertToBitmap(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+    public byte[] convertBitmapResourceToBytes() {
+        Bitmap bitmapFromResource = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_product_image);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmapFromResource.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
 }

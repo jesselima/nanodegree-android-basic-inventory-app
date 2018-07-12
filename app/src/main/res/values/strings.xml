@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Inventory</string>
-    <string name="action_insert_dummy_data">Insert Test Products</string>
-    <string name="action_delete_all_entries">Delete All Products</string>
+    <string name="action_insert_dummy_data">TEST Insert Test Products</string>
+    <string name="action_delete_all_entries">TEST Delete All Products</string>
     <string name="empty_view_title_text">It\'s a bit lonely here…</string>
     <string name="empty_view_subtitle_text">Get started by adding a product</string>
     <string name="editor_activity_title_new_product">Add a Product</string>

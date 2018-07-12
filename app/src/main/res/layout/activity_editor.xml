@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,47 +21,88 @@
                 android:id="@+id/card_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="8dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAllCaps="true"
-                        android:gravity="center_vertical"
-                        android:text="Product Status"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textStyle="bold"/>
+
                     <LinearLayout
-                        android:id="@+id/container_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <Spinner
-                            android:id="@+id/spinner_status"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="3"
-                            android:spinnerMode="dropdown"/>
-                        <ImageView
-                            android:id="@+id/iv_product_status"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:padding="12dp"
-                            android:src="@drawable/ic_product_available_shadow"/>
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/iv_product_details_layout"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/dummy_product_image" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="4dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:layout_marginStart="8dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Product Status"
+                                        android:textAllCaps="true"
+                                        android:textAppearance="?android:textAppearanceMedium"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_product_status"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:padding="12dp"
+                                        android:src="@drawable/ic_product_available_shadow" />
+                                </LinearLayout>
+
+                                <Spinner
+                                    android:id="@+id/spinner_status"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:spinnerMode="dropdown" />
+                            </LinearLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
 
-
                     <LinearLayout
+                        android:id="@+id/layout_entry_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -70,7 +110,8 @@
                             android:gravity="center_vertical"
                             android:text="Entry date:"
                             android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/tv_entry_date"
                             android:layout_width="0dp"
@@ -78,15 +119,17 @@
                             android:layout_weight="2"
                             android:gravity="center_vertical"
                             android:textSize="16sp"
-                            tools:text="01/05/2018"/>
+                            tools:text="01/05/2018" />
                     </LinearLayout>
 
 
                     <LinearLayout
+                        android:id="@+id/layout_last_update"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -94,7 +137,8 @@
                             android:gravity="center_vertical"
                             android:text="Last Update:"
                             android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/tv_updated_date"
                             android:layout_width="0dp"
@@ -102,40 +146,43 @@
                             android:layout_weight="2"
                             android:gravity="center_vertical"
                             android:textSize="16sp"
-                            tools:text="01/05/2018"/>
+                            tools:text="01/05/2018" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_contact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Order more:"
                             android:layout_gravity="center"
-                            android:textStyle="bold"
-                            android:textAppearance="?android:textAppearanceMedium"/>
+                            android:text="Order more:"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textStyle="bold" />
+
                         <Button
                             android:id="@+id/btn_call_supplier"
                             style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:textStyle="bold"
+                            android:text="CALL"
                             android:textColor="@color/colorAccent"
-                            android:text="CALL"/>
+                            android:textStyle="bold" />
+
                         <Button
                             android:id="@+id/btn_email_supplier"
                             style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:textStyle="bold"
+                            android:text="EMAIL"
                             android:textColor="@color/colorAccent"
-                            android:text="EMAIL"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <!-- Card content here!!-->
@@ -149,66 +196,73 @@
                 android:id="@+id/card_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:gravity="center">
+                    android:padding="8dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Quick quantity update"
                         android:layout_gravity="start"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
+                        android:layout_marginBottom="4dp"
                         android:layout_marginTop="8dp"
+                        android:text="Quick quantity update"
+                        android:textAllCaps="true"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:layout_marginBottom="4dp"/>
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/btn_remove_fifty_item"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:text="-50"/>
+                            android:text="-50" />
+
                         <Button
                             android:id="@+id/btn_remove_ten_item"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:text="-10"/>
+                            android:text="-10" />
+
                         <Button
                             android:id="@+id/btn_remove_one_item"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:text="-1"/>
+                            android:text="-1"
+                            android:textStyle="bold" />
+
                         <Button
                             android:id="@+id/btn_add_one_item"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:text="+1"/>
+                            android:text="+1" />
+
                         <Button
                             android:id="@+id/btn_add_ten_item"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:text="+10"/>
+                            android:text="+10" />
+
                         <Button
                             android:id="@+id/btn_add_fifty_item"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:text="+50"/>
+                            android:text="+50" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -224,15 +278,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     app:hintTextAppearance="@style/formHintText">
+
                     <EditText
                         android:id="@+id/edit_product_quantity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Quantity"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textStyle="bold"
                         android:inputType="number"
                         android:maxLines="1"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textStyle="bold"
                         android:theme="@style/formEditText" />
                 </android.support.design.widget.TextInputLayout>
                 <!-- Product Price -->
@@ -241,6 +296,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     app:hintTextAppearance="@style/formHintText">
+
                     <EditText
                         android:id="@+id/edit_product_price"
                         android:layout_width="match_parent"
@@ -256,6 +312,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     app:hintTextAppearance="@style/formHintText">
+
                     <EditText
                         android:id="@+id/edit_product_discount"
                         android:layout_width="match_parent"
@@ -272,7 +329,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="%"/>
+                    android:text="%" />
             </LinearLayout>
 
             <!-- Product Name -->
@@ -280,6 +337,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
+
                 <EditText
                     android:id="@+id/edit_product_name"
                     android:layout_width="match_parent"
@@ -295,6 +353,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
+
                 <EditText
                     android:id="@+id/edit_product_brand"
                     android:layout_width="match_parent"
@@ -310,6 +369,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
+
                 <EditText
                     android:id="@+id/edit_product_description"
                     android:layout_width="match_parent"
@@ -325,6 +385,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
+
                 <EditText
                     android:id="@+id/edit_product_category"
                     android:layout_width="match_parent"
@@ -340,6 +401,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
+
                 <EditText
                     android:id="@+id/edit_product_supplier"
                     android:layout_width="match_parent"
@@ -355,6 +417,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
+
                 <EditText
                     android:id="@+id/edit_product_supplier_phone"
                     android:layout_width="match_parent"
@@ -370,6 +433,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
+
                 <EditText
                     android:id="@+id/edit_product_supplier_email"
                     android:layout_width="match_parent"
@@ -381,31 +445,30 @@
             </android.support.design.widget.TextInputLayout>
 
 
-
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginBottom="50dp"
-                android:gravity="center">
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorSaveButton"
-                android:layout_gravity="center"
-                android:textColor="@color/colorWhite"
-                android:text="SAVE"/>
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
-                android:layout_gravity="center"
-                android:textColor="@color/colorWhite"
-                android:text="DELETE"/>
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="SAVE"
+                    android:textColor="@color/colorSaveButton" />
+
+                <Button
+                    android:id="@+id/btn_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="DELETE"
+                    android:textColor="@color/colorAccent" />
             </LinearLayout>
 
         </LinearLayout>
