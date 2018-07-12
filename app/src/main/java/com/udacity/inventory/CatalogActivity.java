@@ -106,21 +106,11 @@ public class CatalogActivity extends AppCompatActivity implements
     }
 
     /**
-     * Helper method to insert hardcoded product data into the database. For debugging purposes only.
+     * THE METHOD BELOW IS FOR TESTING PURPOSE ONLY Helper method to insert hardcoded product data into the database. For debugging purposes only.
      */
     private void insertSampleProducts() {
 
-//        Bitmap bitmapFromResource = BitmapFactory.decodeResource(getResources(), R.id.action_insert_dummy_data);
-
-//        byte[] productDummyImageInBytes = convertToBytes(bitmapFromResource);
         byte[] productDummyImageInBytes = convertBitmapToBytes();
-
-//        Bitmap bitmapFromResource = intent.getExtras().get("data");
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bitmapFromResource.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
-//        bitmapFromResource.recycle();
-
 
         int sampleDataNumber = 6;
 
@@ -218,13 +208,11 @@ public class CatalogActivity extends AppCompatActivity implements
         toast.show();
     }
 
-    // Convert bitmap to byte array.
-    public static byte[] convertToBytes(Bitmap ImageInBitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ImageInBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
-    }
-
+    /**
+     * Convert the dummy product image into an array of bytes to be stored in the database when the user do not set a product picture.
+     *
+     * @return a image as an array of bytes
+     */
     public byte[] convertBitmapToBytes() {
         Bitmap bitmapFromResource = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_product_image);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -232,8 +220,4 @@ public class CatalogActivity extends AppCompatActivity implements
         return stream.toByteArray();
     }
 
-    // Convert byte array to bitmap
-    public static Bitmap convertToBitmap(byte[] imageInBytes) {
-        return BitmapFactory.decodeByteArray(imageInBytes, 0, imageInBytes.length);
-    }
 }

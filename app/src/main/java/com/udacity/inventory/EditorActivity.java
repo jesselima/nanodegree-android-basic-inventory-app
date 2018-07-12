@@ -92,7 +92,6 @@ public class EditorActivity extends AppCompatActivity implements
             setTitle(getString(R.string.editor_activity_title_new_product));
             invalidateOptionsMenu();
 
-
             LinearLayout linearLayoutEntryDate = findViewById(R.id.layout_entry_date);
             linearLayoutEntryDate.setVisibility(View.GONE);
             LinearLayout linearLayoutLastUpdate = findViewById(R.id.layout_last_update);
@@ -101,7 +100,7 @@ public class EditorActivity extends AppCompatActivity implements
             linearLayoutContact.setVisibility(View.GONE);
 
             CardView cardQuantity = findViewById(R.id.card_quantity);
-                cardQuantity.setVisibility(View.GONE);
+            cardQuantity.setVisibility(View.GONE);
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_product));
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
@@ -201,8 +200,8 @@ public class EditorActivity extends AppCompatActivity implements
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!saveProduct()){
-                    doToast("Please, fill all form fields!");
+                if (!saveProduct()) {
+                    doToast(getString(R.string.fill_all_form_fields));
                     return;
                 }
                 // Exit activity
@@ -293,8 +292,8 @@ public class EditorActivity extends AppCompatActivity implements
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save product to database
-                if (!saveProduct()){
-                    doToast("Please, fill all form fields!");
+                if (!saveProduct()) {
+                    doToast(getString(R.string.fill_all_form_fields));
                     return false;
                 }
                 // Exit activity
@@ -375,7 +374,7 @@ public class EditorActivity extends AppCompatActivity implements
                 ProductEntry.COLUMN_PRODUCT_UPDATED,
                 ProductEntry.COLUMN_PRODUCT_PICTURE,
                 ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE,
-                ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL };
+                ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,
@@ -399,49 +398,49 @@ public class EditorActivity extends AppCompatActivity implements
         // https://developer.android.com/reference/android/database/Cursor#moveToFirst()
         if (cursor.moveToFirst()) {
             // Find the columns of product attributes that we're interested in
-            int nameColumnIndex =           cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
-            int brandColumnIndex =          cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_BRAND);
-            int descriptionColumnIndex =    cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_DESCRIPTION);
-            int categoryColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_CATEGORY);
-            int priceColumnIndex =          cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
-            int discountColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_DISCOUNT);
-            int quantityColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-            int supplierColumnIndex =       cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER);
-            int supplierPhoneColumnIndex =  cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
-            int supplierEmailColumnIndex =  cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL);
-            int statusColumnIndex =         cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_STATUS);
-            int entryDateColumnIndex =      cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE);
-            int updatedColumnIndex =        cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_UPDATED);
-            int imageColumnIndex =          cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PICTURE);
+            int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
+            int brandColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_BRAND);
+            int descriptionColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_DESCRIPTION);
+            int categoryColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_CATEGORY);
+            int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
+            int discountColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_DISCOUNT);
+            int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+            int supplierColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER);
+            int supplierPhoneColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
+            int supplierEmailColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL);
+            int statusColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_STATUS);
+            int entryDateColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE);
+            int updatedColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_UPDATED);
+            int imageColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PICTURE);
 
             /* GET DATA FROM THE TABLE RESULT */
-            String  name =          cursor.getString(nameColumnIndex);
-            String  brand =         cursor.getString(brandColumnIndex);
-            String  description =   cursor.getString(descriptionColumnIndex);
-            String  category =      cursor.getString(categoryColumnIndex);
-            double  price =         cursor.getDouble(priceColumnIndex);
-            int     discount =      cursor.getInt(discountColumnIndex);
-            String  supplier =      cursor.getString(supplierColumnIndex);
-            String  supplierPhone = cursor.getString(supplierPhoneColumnIndex);
-            String  supplierEmail = cursor.getString(supplierEmailColumnIndex);
-            int     quantity =      cursor.getInt(quantityColumnIndex);
+            String name = cursor.getString(nameColumnIndex);
+            String brand = cursor.getString(brandColumnIndex);
+            String description = cursor.getString(descriptionColumnIndex);
+            String category = cursor.getString(categoryColumnIndex);
+            double price = cursor.getDouble(priceColumnIndex);
+            int discount = cursor.getInt(discountColumnIndex);
+            String supplier = cursor.getString(supplierColumnIndex);
+            String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
+            String supplierEmail = cursor.getString(supplierEmailColumnIndex);
+            int quantity = cursor.getInt(quantityColumnIndex);
 
             long entryDateLong = cursor.getInt(entryDateColumnIndex);
-                // Convert the date to a friendly format
-                DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(entryDateLong * 1000);
-                String entryDate =  formatter.format(calendar.getTime());
-                // Product data has been return from data. Sou we need to set the currentProductEntryDate == to the product date returned.
-                // This avoid to update the entry date while updating others products fields.
-                currentProductEntryDate = entryDateLong;
+            // Convert the date to a friendly format
+            DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(entryDateLong * 1000);
+            String entryDate = formatter.format(calendar.getTime());
+            // Product data has been return from data. Sou we need to set the currentProductEntryDate == to the product date returned.
+            // This avoid to update the entry date while updating others products fields.
+            currentProductEntryDate = entryDateLong;
 
             long updatedDateLong = cursor.getInt(updatedColumnIndex);
-                // Convert the date to a friendly format
-                DateFormat formatterUpdated = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
-                Calendar calendarUpdated = Calendar.getInstance();
-                calendarUpdated.setTimeInMillis(updatedDateLong * 1000);
-                String updatedDate =  formatterUpdated.format(calendarUpdated.getTime());
+            // Convert the date to a friendly format
+            DateFormat formatterUpdated = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+            Calendar calendarUpdated = Calendar.getInstance();
+            calendarUpdated.setTimeInMillis(updatedDateLong * 1000);
+            String updatedDate = formatterUpdated.format(calendarUpdated.getTime());
 
             byte[] imageInBytes = cursor.getBlob(imageColumnIndex);
             Bitmap mImageFromDb = convertToBitmap(imageInBytes);
@@ -463,16 +462,16 @@ public class EditorActivity extends AppCompatActivity implements
             mUpdatedDateEditText.setText(String.valueOf(updatedDate));
 
             /* Status codes:
-            * AVAILABLE = 0;
-            * OUT_OF_STOCK = 1;
-            * DEPRECATED = 2;
-            */
+             * AVAILABLE = 0;
+             * OUT_OF_STOCK = 1;
+             * DEPRECATED = 2;
+             */
             int status = cursor.getInt(statusColumnIndex);
-            if (status == 2){
-                doToast("Attention! This product is deprecated.");
-            }else if (quantity == 0){
+            if (status == 2) {
+                doToast(getString(R.string.warning_product_deprecated));
+            } else if (quantity == 0) {
                 status = ProductEntry.PRODUCT_STATUS_OUT_OF_STOCK; // if quantity is 1 set status to out of stock.
-            }else if (quantity >= 1){
+            } else if (quantity >= 1) {
                 status = ProductEntry.PRODUCT_STATUS_AVAILABLE;
             }
 
@@ -510,7 +509,7 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
-        
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
@@ -564,79 +563,79 @@ public class EditorActivity extends AppCompatActivity implements
     private boolean saveProduct() {
         // Get data from forms
         String nameString;
-        if (mNameEditText.getText().toString().equals("")){
+        if (mNameEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             nameString = mNameEditText.getText().toString().trim();
         }
 
         String brandString;
-        if (mBrandEditText.getText().toString().equals("")){
+        if (mBrandEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             brandString = mBrandEditText.getText().toString().trim();
         }
 
         String descriptionString;
-        if (mDescriptionEditText.getText().toString().equals("")){
+        if (mDescriptionEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             descriptionString = mDescriptionEditText.getText().toString().trim();
         }
 
         String categoryString;
-        if (mCategoryEditText.getText().toString().equals("")){
+        if (mCategoryEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             categoryString = mCategoryEditText.getText().toString().trim();
         }
 
         String supplier;
-        if (mSupplierEditText.getText().toString().equals("")){
+        if (mSupplierEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             supplier = mSupplierEditText.getText().toString().trim();
         }
 
         String supplierPhone;
-        if (mSupplierPhoneEditText.getText().toString().equals("")){
+        if (mSupplierPhoneEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             supplierPhone = mSupplierPhoneEditText.getText().toString().trim();
         }
 
         String supplierEmail;
-        if (mSupplierEmailEditText.getText().toString().equals("")){
+        if (mSupplierEmailEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             supplierEmail = mSupplierEmailEditText.getText().toString().trim();
         }
 
         double price;
-        if (mPriceEditText.getText().toString().equals("")){
+        if (mPriceEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             price = Double.parseDouble(mPriceEditText.getText().toString().trim());
         }
 
         int discount;
-        if (mDiscountEditText.getText().toString().equals("")){
+        if (mDiscountEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             discount = Integer.parseInt(mDiscountEditText.getText().toString());
         }
 
         int quantity;
-        if (mQuantityEditText.getText().toString().equals("")){
+        if (mQuantityEditText.getText().toString().equals("")) {
             return false;
-        }else {
+        } else {
             quantity = Integer.parseInt(mQuantityEditText.getText().toString());
         }
 
         int status = mProductStatus;
 
         // If quantity in the form is > 0 the status is auto set to available.
-        if (quantity > 0){
+        if (quantity > 0) {
             status = 0;
         }
 
@@ -656,17 +655,17 @@ public class EditorActivity extends AppCompatActivity implements
         byte[] productImageBytes;
         if (mImageProductBitmap != null) {
             productImageBytes = getImageInBytes(mImageProductBitmap);
-        }else {
+        } else {
             productImageBytes = convertBitmapResourceToBytes();
         }
         values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, productImageBytes);
 
 
-        long currentDateTime = System.currentTimeMillis()/1000;
+        long currentDateTime = System.currentTimeMillis() / 1000;
         long entryDate;
-        if (isEditingProduct){
+        if (isEditingProduct) {
             entryDate = currentProductEntryDate;
-        } else{
+        } else {
             entryDate = currentDateTime;
         }
         values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, entryDate);
@@ -680,7 +679,7 @@ public class EditorActivity extends AppCompatActivity implements
             } else {
                 doToast(getString(R.string.editor_insert_product_successful));
             }
-        // FOR PRODUCT UPDATE
+            // FOR PRODUCT UPDATE
         } else {
             int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
             if (rowsAffected == 0) {
@@ -692,10 +691,18 @@ public class EditorActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void updateItemAdd(int quantityToAdd){
+    private void updateItemAdd(int quantityToAdd) {
 
-        int quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-        int quantityUpdated = quantityFromInput + quantityToAdd;
+        int quantityFromInput;
+        int quantityUpdated;
+
+        if (TextUtils.isEmpty(mQuantityEditText.getText().toString().trim())){
+            quantityUpdated = quantityToAdd;
+        }else {
+            quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+            quantityUpdated = quantityFromInput + quantityToAdd;
+        }
+
         mQuantityEditText.setText(String.valueOf(quantityUpdated));
 
         ContentValues values = new ContentValues();
@@ -710,16 +717,26 @@ public class EditorActivity extends AppCompatActivity implements
 
     }
 
-    private void updateItemRemove(int quantityToRemove){
+    private void updateItemRemove(int quantityToRemove) {
 
-        int quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-
-        int quantityUpdated = quantityFromInput - quantityToRemove;
-        if (quantityFromInput == 0){
-            Toast.makeText(this, "Product stock is already empty.", Toast.LENGTH_SHORT).show();
+        int quantityFromInput;
+        int quantityUpdated;
+        if (TextUtils.isEmpty(mQuantityEditText.getText().toString().trim())){
+            doToast(getString(R.string.set_product_quantity));
             return;
-        }else if (quantityUpdated < 0){
-            Toast.makeText(this, "Product stock is now empty.", Toast.LENGTH_SHORT).show();
+//            quantityUpdated = quantityToRemove;
+        }else {
+            quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+            quantityUpdated = quantityFromInput - quantityToRemove;
+        }
+
+
+
+        if (quantityFromInput == 0) {
+            Toast.makeText(this, R.string.stock_already_empty, Toast.LENGTH_SHORT).show();
+            return;
+        } else if (quantityUpdated < 0) {
+            Toast.makeText(this, R.string.stock_is_now_empty, Toast.LENGTH_SHORT).show();
             quantityUpdated = 0;
         }
         mQuantityEditText.setText(String.valueOf(quantityUpdated));
@@ -746,8 +763,6 @@ public class EditorActivity extends AppCompatActivity implements
 
     protected void callSupplier() {
 
-        // TODO: PHONE VALIDATION
-
         String phoneNumber = mSupplierPhoneEditText.getText().toString().trim();
 
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -768,14 +783,14 @@ public class EditorActivity extends AppCompatActivity implements
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Request of products to my store.");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
 
         StringBuilder emailData = new StringBuilder();
-            emailData.append("Dear Supplier,\n\nI would like to request the product below to supply my store.\n\n");
-            emailData.append(getResources().getString(R.string.email_item_label_name) + productName + "\n");
-            emailData.append(getResources().getString(R.string.email_item_label_brand) + productBrand + "\n");
-            emailData.append(getResources().getString(R.string.email_item_label_description) + productDescription + "\n\n");
-            emailData.append(getResources().getString(R.string.email_item_label_request_quantity));
+        emailData.append("Dear Supplier,\n\nI would like to request the product below to supply my store.\n\n");
+        emailData.append(getResources().getString(R.string.email_item_label_name) + productName + "\n");
+        emailData.append(getResources().getString(R.string.email_item_label_brand) + productBrand + "\n");
+        emailData.append(getResources().getString(R.string.email_item_label_description) + productDescription + "\n\n");
+        emailData.append(getResources().getString(R.string.email_item_label_request_quantity));
         String emailBody = emailData.toString();
 
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
@@ -795,6 +810,7 @@ public class EditorActivity extends AppCompatActivity implements
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {

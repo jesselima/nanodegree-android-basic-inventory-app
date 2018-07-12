@@ -21,10 +21,10 @@
                 android:id="@+id/card_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
+                android:layout_marginTop="4dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp">
 
@@ -74,7 +74,7 @@
                                         android:layout_height="50dp"
                                         android:layout_marginStart="8dp"
                                         android:gravity="center_vertical"
-                                        android:text="Product Status"
+                                        android:text="@string/product_status"
                                         android:textAllCaps="true"
                                         android:textAppearance="?android:textAppearanceMedium"
                                         android:textStyle="bold" />
@@ -108,7 +108,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Entry date:"
+                            android:text="@string/entry_date"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -122,7 +122,6 @@
                             tools:text="01/05/2018" />
                     </LinearLayout>
 
-
                     <LinearLayout
                         android:id="@+id/layout_last_update"
                         android:layout_width="match_parent"
@@ -135,7 +134,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Last Update:"
+                            android:text="@string/last_update"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -160,7 +159,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Order more:"
+                            android:text="@string/order_more"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textStyle="bold" />
 
@@ -170,7 +169,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="CALL"
+                            android:text="@string/call"
                             android:textColor="@color/colorAccent"
                             android:textStyle="bold" />
 
@@ -180,12 +179,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="EMAIL"
+                            android:text="@string/email"
                             android:textColor="@color/colorAccent"
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Card content here!!-->
                 </LinearLayout>
 
 
@@ -215,7 +213,7 @@
                         android:layout_gravity="start"
                         android:layout_marginBottom="4dp"
                         android:layout_marginTop="8dp"
-                        android:text="Quick quantity update"
+                        android:text="@string/quick_quantity_update"
                         android:textAllCaps="true"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textStyle="bold" />
@@ -229,40 +227,40 @@
 
                         <Button
                             android:id="@+id/btn_remove_fifty_item"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="-50" />
+                            style="@style/buttonQuickQuantity"
+                            android:text="@string/minus_50" />
 
                         <Button
                             android:id="@+id/btn_remove_ten_item"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="-10" />
+                            style="@style/buttonQuickQuantity"
+                            android:text="@string/minus_10" />
 
                         <Button
                             android:id="@+id/btn_remove_one_item"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="-1"
-                            android:textStyle="bold" />
+                            style="@style/buttonQuickQuantity"
+                            android:text="@string/minus_1" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginStart="4dp"
+                            android:background="@color/colorLightGrey"/>
 
                         <Button
                             android:id="@+id/btn_add_one_item"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="+1" />
+                            style="@style/buttonQuickQuantity"
+                            android:text="@string/plus_1" />
 
                         <Button
                             android:id="@+id/btn_add_ten_item"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="+10" />
+                            style="@style/buttonQuickQuantity"
+                            android:text="@string/plus_10" />
 
                         <Button
                             android:id="@+id/btn_add_fifty_item"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="+50" />
+                            style="@style/buttonQuickQuantity"
+                            android:text="@string/plus_50" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -272,56 +270,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <!-- Product Quantity -->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     app:hintTextAppearance="@style/formHintText">
-
                     <EditText
                         android:id="@+id/edit_product_quantity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Quantity"
+                        style="@style/EditTextStyle"
+                        android:hint="@string/hint_product_quantity"
                         android:inputType="number"
-                        android:maxLines="1"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textStyle="bold"
-                        android:theme="@style/formEditText" />
+                        android:textStyle="bold" />
                 </android.support.design.widget.TextInputLayout>
+
                 <!-- Product Price -->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     app:hintTextAppearance="@style/formHintText">
-
                     <EditText
                         android:id="@+id/edit_product_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Price"
+                        style="@style/EditTextStyle"
+                        android:hint="@string/hint_product_price"
                         android:inputType="numberDecimal"
-                        android:maxLines="1"
-                        android:theme="@style/formEditText" />
+                        android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
+
                 <!-- Product Discount -->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     app:hintTextAppearance="@style/formHintText">
-
                     <EditText
                         android:id="@+id/edit_product_discount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Discount"
+                        style="@style/EditTextStyle"
+                        android:hint="@string/hint_product_discount"
                         android:inputType="number"
-                        android:maxLines="1"
-                        android:text="@string/_0"
-                        android:theme="@style/formEditText" />
+                        android:text="@string/_0" />
                 </android.support.design.widget.TextInputLayout>
                 <!-- Discount % symbol -->
                 <TextView
@@ -329,7 +318,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="%" />
+                    android:text="@string/percent" />
             </LinearLayout>
 
             <!-- Product Name -->
@@ -337,15 +326,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
-
                 <EditText
                     android:id="@+id/edit_product_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Name"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    android:theme="@style/formEditText" />
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_product_name" />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Product Brand -->
@@ -353,15 +337,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
-
                 <EditText
                     android:id="@+id/edit_product_brand"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Brand"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    android:theme="@style/formEditText" />
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_product_brand" />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Product Brand -->
@@ -369,15 +348,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
-
                 <EditText
                     android:id="@+id/edit_product_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Description"
-                    android:inputType="textCapSentences"
-                    android:maxLines="5"
-                    android:theme="@style/formEditText" />
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_product_description"
+                    android:maxLines="5" />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Product Category -->
@@ -385,15 +360,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
-
                 <EditText
                     android:id="@+id/edit_product_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Category"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    android:theme="@style/formEditText" />
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_product_category" />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Product Supplier Name -->
@@ -401,15 +371,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
-
                 <EditText
                     android:id="@+id/edit_product_supplier"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Supplier Name"
-                    android:inputType="textCapSentences"
-                    android:maxLines="1"
-                    android:theme="@style/formEditText" />
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_product_supplier_name" />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Product Supplier Phone Number -->
@@ -417,15 +382,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
-
                 <EditText
                     android:id="@+id/edit_product_supplier_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Supplier Phone Number"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:theme="@style/formEditText" />
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_product_supplier_phone"
+                    android:inputType="phone" />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Product Supplier Email -->
@@ -433,18 +394,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/formHintText">
-
                 <EditText
                     android:id="@+id/edit_product_supplier_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Supplier Email Address"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:theme="@style/formEditText" />
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_product_supplier_email"
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
-
+            <!--Buttons to save (update) or delete product -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -457,18 +414,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:text="SAVE"
-                    android:textColor="@color/colorSaveButton" />
+                    android:text="@string/action_save"
+                    android:textColor="@color/colorSaveButton"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:text="DELETE"
-                    android:textColor="@color/colorAccent" />
+                    android:text="@string/action_delete"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>

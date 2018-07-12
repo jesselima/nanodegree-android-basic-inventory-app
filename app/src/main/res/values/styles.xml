@@ -35,22 +35,21 @@
     </style>
 
     <!-- Style for the measurement units for an EditText field in the editor -->
-    <style name="EditorUnitsStyle">
+    <style name="EditTextStyle">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:inputType">textCapWords</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:theme">@style/formEditText</item>
     </style>
 
-
-    <!---->
-    <!---->
-    <!---->
-    <!---->
-    <!---->
-    <!---->
+    <style name="buttonQuickQuantity">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
 
     <!--Floating label text style-->
     <style name="formHintText" parent="TextAppearance.AppCompat.Small">
