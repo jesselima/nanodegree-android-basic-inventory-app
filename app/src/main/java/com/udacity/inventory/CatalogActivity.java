@@ -106,7 +106,8 @@ public class CatalogActivity extends AppCompatActivity implements
     }
 
     /**
-     * THE METHOD BELOW IS FOR TESTING PURPOSE ONLY Helper method to insert hardcoded product data into the database. For debugging purposes only.
+     * THE METHOD BELOW IS FOR TESTING PURPOSE ONLY
+     * It's a Helper method to insert hardcoded product data into the database.
      */
     private void insertSampleProducts() {
 
@@ -124,21 +125,21 @@ public class CatalogActivity extends AppCompatActivity implements
             values.put(ProductEntry.COLUMN_PRODUCT_CATEGORY, "Category of product " + i);
 
             /* INSERT SAMPLES PRODUCTS */
-                    Random randomGenerator = new Random();
-                    double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
-                    DecimalFormat df = new DecimalFormat("#.00");
-                    double price = Double.parseDouble(df.format(randomPrice));
+            Random randomGenerator = new Random();
+            double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
+            DecimalFormat df = new DecimalFormat("#.00");
+            double price = Double.parseDouble(df.format(randomPrice));
             values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
             values.put(ProductEntry.COLUMN_PRODUCT_DISCOUNT, 10);
             values.put(ProductEntry.COLUMN_PRODUCT_STATUS, ProductEntry.PRODUCT_STATUS_AVAILABLE);
 
-                    Random randomQuantityGenerator = new Random();
-                    int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
+            Random randomQuantityGenerator = new Random();
+            int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
             values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, "Supplier of product " + i);
 
-                    Random randomPhoneGenerator = new Random();
-                    int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
+            Random randomPhoneGenerator = new Random();
+            int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(" + String.valueOf(randomPhone) + ") " + String.valueOf(randomPhone - 30) + "-" + String.valueOf(randomPhone - 15) + "-" + String.valueOf(randomPhone - 10));
             values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "contact@supplier" + i + ".com");
             values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
@@ -147,12 +148,12 @@ public class CatalogActivity extends AppCompatActivity implements
 
             Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
         }
-        doToast(String.valueOf(sampleDataNumber - 1) + " test products added to the database.");
+        doToast(String.valueOf(sampleDataNumber - 1) + getString(R.string.test_products_added_to_database));
     }
 
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
-        doToast(rowsDeleted + " products deleted from inventory database");
+        doToast(rowsDeleted + getString(R.string.products_deleted_from_database));
     }
 
     @Override

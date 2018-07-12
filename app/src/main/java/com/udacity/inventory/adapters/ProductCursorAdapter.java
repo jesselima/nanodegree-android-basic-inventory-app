@@ -64,7 +64,7 @@ public class ProductCursorAdapter extends CursorAdapter {
                     doToast(context, context.getString(R.string.this_product_out_of_stock));
                 } else {
                     saleItem(context, id, (productQuantity - 1));
-                    doToast(context, context.getString(R.string.you_sold_one_) + productName + " from the store.");
+                    doToast(context, context.getString(R.string.you_sold_one_) + productName + context.getString(R.string._from_the_store));
                 }
             }
         });
@@ -88,6 +88,13 @@ public class ProductCursorAdapter extends CursorAdapter {
         }
     }
 
+    /**
+     * This method is called when the user clicks on the SALE button on a item list, the product quantity is updates
+     * 
+     * @param context is the application context.
+     * @param productId is the ID of the product in the database
+     * @param quantity is the quantity of the product in the database.
+     */
     private static void saleItem(Context context, int productId, int quantity) {
 
         Uri newUri = ProductEntry.CONTENT_URI;

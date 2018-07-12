@@ -696,9 +696,9 @@ public class EditorActivity extends AppCompatActivity implements
         int quantityFromInput;
         int quantityUpdated;
 
-        if (TextUtils.isEmpty(mQuantityEditText.getText().toString().trim())){
+        if (TextUtils.isEmpty(mQuantityEditText.getText().toString().trim())) {
             quantityUpdated = quantityToAdd;
-        }else {
+        } else {
             quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
             quantityUpdated = quantityFromInput + quantityToAdd;
         }
@@ -721,15 +721,14 @@ public class EditorActivity extends AppCompatActivity implements
 
         int quantityFromInput;
         int quantityUpdated;
-        if (TextUtils.isEmpty(mQuantityEditText.getText().toString().trim())){
+        if (TextUtils.isEmpty(mQuantityEditText.getText().toString().trim())) {
             doToast(getString(R.string.set_product_quantity));
             return;
 //            quantityUpdated = quantityToRemove;
-        }else {
+        } else {
             quantityFromInput = Integer.parseInt(mQuantityEditText.getText().toString().trim());
             quantityUpdated = quantityFromInput - quantityToRemove;
         }
-
 
 
         if (quantityFromInput == 0) {
@@ -786,7 +785,7 @@ public class EditorActivity extends AppCompatActivity implements
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
 
         StringBuilder emailData = new StringBuilder();
-        emailData.append("Dear Supplier,\n\nI would like to request the product below to supply my store.\n\n");
+        emailData.append(getString(R.string.email_header_template));
         emailData.append(getResources().getString(R.string.email_item_label_name) + productName + "\n");
         emailData.append(getResources().getString(R.string.email_item_label_brand) + productBrand + "\n");
         emailData.append(getResources().getString(R.string.email_item_label_description) + productDescription + "\n\n");
@@ -796,10 +795,10 @@ public class EditorActivity extends AppCompatActivity implements
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
 
         try {
-            startActivity(Intent.createChooser(emailIntent, "Please, choose your email app...."));
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent_title)));
             finish();
         } catch (android.content.ActivityNotFoundException ex) {
-            doToast("There is no email client installed.");
+            doToast(getString(R.string.warning_no_email_app_installed));
         }
     }
 

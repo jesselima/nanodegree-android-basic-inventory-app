@@ -77,6 +77,7 @@ public class ProductProvider extends ContentProvider {
 
     private Uri insertProduct(Uri uri, ContentValues values) {
 
+        // TODO: Review insert validations
         String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
             throw new IllegalArgumentException("Product requires a name");
