@@ -63,12 +63,22 @@ public class CatalogActivity extends AppCompatActivity implements
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
 
-        // Setup the item click listener
+        // Setup the item click listener for the product item list
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Create new intent to go to {@link EditorActivity}
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+
+                /** Form the content URI that represents the specific product that was clicked on,
+                * {@link ProductEntry#CONTENT_URI}.
+                * For example, the URI would be "content://com.udacity.android.inventory/products/1"
+                * if the product with ID 1 was clicked on.
+                */
                 Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
+                // The content uri with the id of the clicked item will be sent to the editor.
+                // When the editor starts it will always check if this data is available. if the uri is available
+                // fill the form with data of the clicked item. So the user can change the product data and save it.
                 intent.setData(currentProductUri);
                 startActivity(intent);
             }
@@ -80,6 +90,7 @@ public class CatalogActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection for the query in the database. It represents what column data we want to retreive.
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
@@ -87,6 +98,7 @@ public class CatalogActivity extends AppCompatActivity implements
                 ProductEntry.COLUMN_PRODUCT_PRICE,
                 ProductEntry.COLUMN_PRODUCT_STATUS};
 
+        // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,
                 ProductEntry.CONTENT_URI,
                 projection,
@@ -95,106 +107,25 @@ public class CatalogActivity extends AppCompatActivity implements
                 null);
     }
 
+    /**
+     * Update {@link ProductCursorAdapter} with this new cursor containing updated product data
+     * @param loader is the current CursorLoader.
+     * @param data is the updated product data.
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
     }
 
+    /**
+     * Callback called when the data needs to be deleted.
+     * @param loader is the current CursorLoader.
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
     }
 
-    /**
-     * THE METHOD BELOW IS FOR TESTING PURPOSE ONLY
-     * It's a Helper method to insert hardcoded product data into the database.
-     */
-    private void insertSampleProducts() {
-
-        byte[] productDummyImageInBytes = convertBitmapToBytes();
-
-        int sampleDataNumber = 6;
-
-        for (int i = 1; i < sampleDataNumber; i++) {
-
-            long timeStamp = System.currentTimeMillis() / 1000;
-            ContentValues values = new ContentValues();
-            values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Product Test " + i);
-            values.put(ProductEntry.COLUMN_PRODUCT_BRAND, "Brand " + i);
-            values.put(ProductEntry.COLUMN_PRODUCT_DESCRIPTION, "Product " + i + " description...");
-            values.put(ProductEntry.COLUMN_PRODUCT_CATEGORY, "Category of product " + i);
-
-            /* INSERT SAMPLES PRODUCTS */
-            Random randomGenerator = new Random();
-            double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
-            DecimalFormat df = new DecimalFormat("#.00");
-            double price = Double.parseDouble(df.format(randomPrice));
-            values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
-            values.put(ProductEntry.COLUMN_PRODUCT_DISCOUNT, 10);
-            values.put(ProductEntry.COLUMN_PRODUCT_STATUS, ProductEntry.PRODUCT_STATUS_AVAILABLE);
-
-            Random randomQuantityGenerator = new Random();
-            int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
-            values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
-            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, "Supplier of product " + i);
-
-            Random randomPhoneGenerator = new Random();
-            int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
-            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(" + String.valueOf(randomPhone) + ") " + String.valueOf(randomPhone - 30) + "-" + String.valueOf(randomPhone - 15) + "-" + String.valueOf(randomPhone - 10));
-            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "contact@supplier" + i + ".com");
-            values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
-            values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, timeStamp); // Epoch timestamp: 1528046360
-            values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, productDummyImageInBytes); // Sample product image.
-
-            Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
-        }
-        doToast(String.valueOf(sampleDataNumber - 1) + getString(R.string.test_products_added_to_database));
-    }
-
-    private void deleteAllProducts() {
-        int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
-        doToast(rowsDeleted + getString(R.string.products_deleted_from_database));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_catalog, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_insert_dummy_data:
-                insertSampleProducts();
-                return true;
-            case R.id.action_delete_all_entries:
-                showDeleteConfirmationDialog();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showDeleteConfirmationDialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_all_data_warning);
-        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                deleteAllProducts();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
 
     /**
      * This method makes the reuse of toast object to avoid toasts queue
@@ -220,5 +151,122 @@ public class CatalogActivity extends AppCompatActivity implements
         bitmapFromResource.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
     }
+
+
+
+    //**********************************
+    // TEST SECTION START **************
+    //**********************************
+
+    /**
+     * THE METHOD BELOW IS FOR TESTING PURPOSE ONLY.
+     * It's a Helper method to INSERT hardcoded product data into the database.
+     */
+    private void insertSampleProducts() {
+
+        byte[] productDummyImageInBytes = convertBitmapToBytes();
+        int sampleDataNumber = 6;
+
+        for (int i = 1; i < sampleDataNumber; i++) {
+
+            long timeStamp = System.currentTimeMillis() / 1000;
+            ContentValues values = new ContentValues();
+
+            values.put(ProductEntry.COLUMN_PRODUCT_NAME, getString(R.string.product_test_name) + i);
+            values.put(ProductEntry.COLUMN_PRODUCT_BRAND, getString(R.string.product_test_brand) + i);
+            values.put(ProductEntry.COLUMN_PRODUCT_DESCRIPTION, getString(R.string.product_test_description) + i + getString(R.string.product_test_description_continue));
+            values.put(ProductEntry.COLUMN_PRODUCT_CATEGORY, getString(R.string.product_test_category) + i);
+
+            /* INSERT SAMPLES PRODUCTS */
+            Random randomGenerator = new Random();
+            double randomPrice = 30 + (150 - 30) * randomGenerator.nextDouble();
+            DecimalFormat df = new DecimalFormat("#.00");
+            double price = Double.parseDouble(df.format(randomPrice));
+
+            values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
+            values.put(ProductEntry.COLUMN_PRODUCT_DISCOUNT, 10);
+            values.put(ProductEntry.COLUMN_PRODUCT_STATUS, ProductEntry.PRODUCT_STATUS_AVAILABLE);
+
+            Random randomQuantityGenerator = new Random();
+            int randomQuantity = randomQuantityGenerator.nextInt(300) + 10;
+
+            values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, randomQuantity);
+            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER, getString(R.string.product_test_supplier_name) + i);
+
+            Random randomPhoneGenerator = new Random();
+            int randomPhone = randomPhoneGenerator.nextInt(700) + 200;
+
+            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "(" + String.valueOf(randomPhone) + ") " + String.valueOf(randomPhone - 30) + "-" + String.valueOf(randomPhone - 15) + "-" + String.valueOf(randomPhone - 10));
+            values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, getString(R.string.product_test_supplier_email_1) + i + getString(R.string.product_test_dot_com));
+            values.put(ProductEntry.COLUMN_PRODUCT_ENTRY_DATE, timeStamp); // Epoch timestamp: 1528046360
+            values.put(ProductEntry.COLUMN_PRODUCT_UPDATED, timeStamp); // Epoch timestamp: 1528046360
+            values.put(ProductEntry.COLUMN_PRODUCT_PICTURE, productDummyImageInBytes); // Sample product image.
+
+            Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
+        }
+        doToast(String.valueOf(sampleDataNumber - 1) + getString(R.string.test_products_added_to_database));
+    }
+
+    /**
+     * THE METHOD BELOW IS FOR TESTING PURPOSE ONLY.
+     * It's a Helper method to DELETE hardcoded product data into the database.
+     */
+    private void deleteAllProducts() {
+        int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
+        doToast(rowsDeleted + getString(R.string.products_deleted_from_database));
+    }
+
+    /**
+     * THE MENU BELOW IS FOR TESTING PURPOSE ONLY.
+     * It's a Helper method to insert hardcoded product data into the database.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+        return true;
+    }
+
+    /**
+     * This method handles the clicked item menu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_insert_dummy_data:
+                insertSampleProducts();
+                return true;
+            case R.id.action_delete_all_entries:
+                showDeleteConfirmationDialog();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * When "Delete all entries is clicked this confirmation dialog pops up.
+     */
+    private void showDeleteConfirmationDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_all_data_warning);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                deleteAllProducts();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    //**********************************
+    // TEST SECTION END ****************
+    //**********************************
 
 }

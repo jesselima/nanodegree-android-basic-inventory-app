@@ -10,8 +10,7 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="80dp" />
+        android:layout_height="match_parent"/>
 
     <!-- Empty view for the list - This is shown to the user when there is no data to show. -->
     <RelativeLayout

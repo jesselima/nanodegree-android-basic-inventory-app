@@ -7,11 +7,11 @@
 
     <item
         android:id="@+id/action_insert_dummy_data"
-        android:title="Add sample products"
+        android:title="@string/test_add_sample_products"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_delete_all_entries"
-        android:title="Delete all products"
+        android:title="@string/test_delete_all_products"
         app:showAsAction="never" />
 </menu>

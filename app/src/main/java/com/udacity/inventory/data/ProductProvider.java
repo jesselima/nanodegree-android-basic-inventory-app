@@ -77,22 +77,6 @@ public class ProductProvider extends ContentProvider {
 
     private Uri insertProduct(Uri uri, ContentValues values) {
 
-        // TODO: Review insert validations
-        String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
-        if (name == null) {
-            throw new IllegalArgumentException("Product requires a name");
-        }
-
-        Integer status = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_STATUS);
-        if (status == null || !ProductEntry.checkSelectedProductStatus(status)) {
-            throw new IllegalArgumentException("Product requires valid status");
-        }
-
-        Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-        if (quantity != null && quantity < 0) {
-            throw new IllegalArgumentException("Product requires valid quantity");
-        }
-
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         long id = database.insert(ProductEntry.TABLE_NAME, null, values);
@@ -124,21 +108,6 @@ public class ProductProvider extends ContentProvider {
     }
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-
-        // TODO? Validations here???
-        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
-            String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
-            if (name == null) {
-                throw new IllegalArgumentException("Product requires a name");
-            }
-        }
-
-        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_STATUS)) {
-            Integer status = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_STATUS);
-            if (status == null || !ProductEntry.checkSelectedProductStatus(status)) {
-                throw new IllegalArgumentException("Product requires valid status");
-            }
-        }
 
         if (values.size() == 0) {
             return 0;
