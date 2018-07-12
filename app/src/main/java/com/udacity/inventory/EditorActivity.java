@@ -844,4 +844,39 @@ public class EditorActivity extends AppCompatActivity implements
         bitmapFromResource.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
     }
+
+
+    /*
+     *   Resources that helped me to solve some problems during the app development:
+     *
+     *   Official Documentation:
+     *
+     *   https://developer.android.com/training/camera/photobasics
+     *   https://developer.android.com/guide/components/intents-common
+     *   https://developer.android.com/reference/android/support/v4/content/CursorLoader
+     *
+     *   Stack Overflow:
+     *
+     *   https://stackoverflow.com/questions/2558591/remove-listview-items-in-android/5344958#5344958
+     *   https://stackoverflow.com/questions/3680637/generate-a-random-double-in-a-range
+     *   https://stackoverflow.com/questions/8819842/best-way-to-format-a-double-value-to-2-decimal-places
+     *   https://stackoverflow.com/questions/3680637/generate-a-random-double-in-a-range
+     *   https://stackoverflow.com/questions/8065114/how-to-print-a-double-with-two-decimals-in-android
+     *   https://stackoverflow.com/questions/2892615/how-to-remove-auto-focus-keyboard-popup-of-a-field-when-the-screen-shows-up
+     *   https://stackoverflow.com/questions/7266572/how-to-save-images-from-camera-in-android-to-specific-folder
+     *   https://stackoverflow.com/questions/7331310/how-to-store-image-as-blob-in-sqlite-how-to-retrieve-it
+     *   https://stackoverflow.com/questions/4989182/converting-java-bitmap-to-byte-array
+     *   https://stackoverflow.com/questions/13758560/android-bitmap-to-byte-array-and-back-skimagedecoderfactory-returned-null?lq=1
+     *   https://stackoverflow.com/questions/8717333/converting-drawable-resource-image-into-bitmap
+     *   https://stackoverflow.com/questions/40838370/sqlite-database-supports-blob-how-to-store-image-in-sqlite-in-android
+     *   https://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database
+     *   https://stackoverflow.com/questions/20709755/button-inside-listview-not-clickable
+     *
+     *   SQLite Official Documentation:
+     *   https://sqlite.org/datatype3.html
+     *
+     *   Epoch Converter - Epoch & Unix Timestamp Conversion Tools
+     *   https://www.epochconverter.com/
+     *
+     */
 }
